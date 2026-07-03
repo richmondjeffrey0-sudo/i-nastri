@@ -15,63 +15,141 @@ CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
 
 
-STYLE = r""":root {
-  --paper: #f7f5ed;
-  --ink: #24231f;
-  --muted: #77736a;
-  --rule: #d8d3c8;
-  --accent: #8c4c28;
-  --serif: Georgia, "Times New Roman", serif;
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+STYLE = r"""@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=IBM+Plex+Mono:wght@300;400&display=swap');
+:root {
+  --milk: #fdfff5;
+  --black: #080808;
+  --quiet: rgba(8, 8, 8, .62);
+  --rule: rgba(8, 8, 8, .28);
+  --hairline: rgba(8, 8, 8, .14);
+  --display: "Gilda Display", "Iowan Old Style", "Baskerville", serif;
+  --ui: "IBM Plex Mono", "Courier New", monospace;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: var(--paper); font: 16px/1.45 var(--serif); }
-a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 30%, transparent); text-underline-offset: .22em; }
-a:hover { color: var(--accent); text-decoration-color: currentColor; }
+html { scroll-behavior: smooth; background: var(--milk); }
+body {
+  margin: 0;
+  color: var(--black);
+  background-color: var(--milk);
+  background-image: radial-gradient(rgba(8, 8, 8, .025) .45px, transparent .55px);
+  background-size: 4px 4px;
+  font: 300 12px/1.72 var(--ui);
+  letter-spacing: .012em;
+}
+a { color: inherit; text-decoration: none; }
+a:hover { opacity: .52; }
 img { display: block; max-width: 100%; }
-.site-header { width: min(1080px, calc(100% - 48px)); margin: 48px auto 38px; padding: 24px 0 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); }
-.identity { display: grid; gap: 4px; text-decoration: none; }
-.wordmark { font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: .16em; line-height: 1; white-space: nowrap; }
-.byline, .site-header nav, .date, .facts, .place, .eyebrow, .site-footer { font-family: var(--sans); }
-.byline { color: var(--muted); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
-.site-header nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 18px; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
-.site-header nav a { text-decoration: none; }
-.shell { width: min(1080px, calc(100% - 48px)); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 720px) 250px; gap: clamp(54px, 8vw, 108px); align-items: start; }
-.post { padding-bottom: 64px; margin-bottom: 58px; border-bottom: 1px solid var(--rule); }
+.site-header {
+  width: min(1180px, calc(100% - 64px));
+  margin: 42px auto 68px;
+  padding: 22px 0 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 44px;
+  border-top: 1px solid var(--black);
+  border-bottom: 1px solid var(--rule);
+}
+.identity { display: grid; gap: 8px; }
+.wordmark {
+  font: 400 clamp(2.35rem, 4.4vw, 3.9rem)/.95 var(--display);
+  letter-spacing: .13em;
+  white-space: nowrap;
+}
+.byline {
+  color: var(--quiet);
+  font: 300 .64rem/1.4 var(--ui);
+  letter-spacing: .08em;
+}
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 9px 28px;
+  padding-bottom: 4px;
+  font: 300 .7rem/1 var(--ui);
+  letter-spacing: .035em;
+  text-transform: lowercase;
+}
+.site-header nav a { padding-bottom: 7px; border-bottom: 1px solid transparent; }
+.site-header nav a:hover { opacity: 1; border-color: var(--black); }
+.shell {
+  width: min(1180px, calc(100% - 64px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 820px) 238px;
+  gap: clamp(70px, 8vw, 122px);
+  align-items: start;
+}
+.post {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  grid-template-areas: "art header" "art notes";
+  gap: 22px 34px;
+  align-items: start;
+  padding: 0 0 78px;
+  margin: 0 0 78px;
+  border-bottom: 1px solid var(--rule);
+}
 .post[hidden] { display: none; }
-.post-header { display: grid; grid-template-columns: 116px 1fr; align-items: baseline; gap: 14px; margin-bottom: 20px; }
-.post h1 { margin: 0; color: var(--accent); font-size: clamp(1.55rem, 2.6vw, 2.15rem); font-weight: 400; }
-.post h1 a { text-decoration: none; }
-.date { margin: 0; color: var(--muted); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; }
-.artwork { display: block; margin: 0 0 16px; background: #ebe8df; }
-.artwork img { width: 100%; max-height: 750px; object-fit: contain; }
-.facts, .place { margin: 3px 0; font-size: .77rem; letter-spacing: .03em; }
-.place { color: var(--muted); }
-.sold { margin-left: .6em; color: var(--accent); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
-.sidebar { position: sticky; top: 24px; font-size: .88rem; }
-.sidebar section { padding: 0 0 24px; margin: 0 0 24px; border-bottom: 1px solid var(--rule); }
+.post-header { grid-area: header; padding-top: 4px; }
+.post h1 {
+  margin: 17px 0 0;
+  font: 400 clamp(1.45rem, 2.4vw, 2rem)/1.12 var(--display);
+  letter-spacing: .065em;
+}
+.date {
+  margin: 0;
+  color: var(--quiet);
+  font: 300 .64rem/1.5 var(--ui);
+  letter-spacing: .045em;
+  text-transform: lowercase;
+}
+.artwork { grid-area: art; display: block; background: rgba(8, 8, 8, .035); }
+.artwork img { width: 100%; max-height: 760px; object-fit: contain; }
+.post-notes { grid-area: notes; align-self: end; padding-bottom: 2px; }
+.facts, .place { margin: 0 0 12px; font: 300 .68rem/1.7 var(--ui); }
+.place { color: var(--quiet); }
+.facts::after { content: ""; display: block; width: 16px; margin-top: 14px; border-top: 1px solid var(--black); }
+.sold { display: block; margin-top: 9px; font-size: .62rem; letter-spacing: .09em; text-transform: lowercase; }
+.details { display: inline-block; margin-top: 28px; padding-bottom: 5px; border-bottom: 1px solid var(--black); font-size: .64rem; }
+.sidebar { position: sticky; top: 24px; font-size: .7rem; }
+.sidebar section { padding: 0 0 28px; margin: 0 0 28px; border-bottom: 1px solid var(--hairline); }
 .sidebar p { margin-top: 0; }
-.eyebrow { display: block; margin-bottom: 10px; color: var(--muted); font-size: .67rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
-.search { display: flex; border-bottom: 1px solid var(--ink); }
-.search input { min-width: 0; width: 100%; padding: 7px 0; border: 0; outline: 0; background: transparent; font: .82rem var(--serif); }
-.search button { border: 0; background: transparent; cursor: pointer; }
+.eyebrow { display: block; margin-bottom: 14px; color: var(--black); font: 400 .62rem/1 var(--ui); letter-spacing: .08em; text-transform: lowercase; }
+.search { display: flex; border-bottom: 1px solid var(--black); }
+.search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
+.search input::placeholder { color: var(--quiet); }
+.search button { border: 0; color: var(--black); background: transparent; cursor: pointer; }
 .browse-list { padding: 0; margin: 0; list-style: none; }
-.browse-list li { display: flex; justify-content: space-between; padding: 3px 0; }
-.browse-list span { color: var(--muted); font-family: var(--sans); font-size: .72rem; }
-.years { display: flex; flex-wrap: wrap; gap: 6px 14px; }
-.site-footer { width: min(1080px, calc(100% - 48px)); margin: 10px auto 32px; padding-top: 20px; display: flex; justify-content: space-between; border-top: 1px solid var(--ink); color: var(--muted); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
-@media (max-width: 760px) {
+.browse-list li { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--hairline); }
+.browse-list span { color: var(--quiet); }
+.years { display: flex; flex-wrap: wrap; gap: 9px 16px; }
+.site-footer {
+  width: min(1180px, calc(100% - 64px));
+  margin: 8px auto 38px;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--black);
+  color: var(--quiet);
+  font: 300 .62rem/1.4 var(--ui);
+  text-transform: lowercase;
+}
+@media (max-width: 840px) {
   .site-header { margin-top: 24px; display: grid; }
   .site-header nav { justify-content: flex-start; }
   .shell { grid-template-columns: 1fr; }
-  .sidebar { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  .sidebar { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
   .sidebar section { margin: 0; }
 }
-@media (max-width: 480px) {
-  .site-header, .shell, .site-footer { width: min(100% - 28px, 1080px); }
-  .byline { max-width: 34ch; }
-  .post-header { grid-template-columns: 1fr; gap: 6px; }
+@media (max-width: 620px) {
+  .site-header, .shell, .site-footer { width: min(100% - 30px, 1180px); }
+  .wordmark { white-space: normal; }
+  .byline { max-width: 38ch; }
+  .post { grid-template-columns: 1fr; grid-template-areas: "header" "art" "notes"; gap: 18px; }
+  .post h1 { margin-top: 8px; }
+  .post-notes { padding-top: 3px; }
   .sidebar { grid-template-columns: 1fr; }
 }
 """
@@ -198,7 +276,7 @@ def post_html(post: Post, anchor: str) -> str:
     return f"""<article class="post"{anchor} data-search="{html.escape(post.title.lower())}">
   <header class="post-header"><p class="date">{html.escape(post.date)}</p><h1><a href="{html.escape(post.url)}">{title}</a></h1></header>
   <a class="artwork" href="{html.escape(post.url)}" aria-label="View {title}"><img src="{html.escape(post.image)}" alt="{title}" loading="lazy"></a>
-  {facts}{place}
+  <div class="post-notes">{facts}{place}<a class="details" href="{html.escape(post.url)}">view details&nbsp; ⟶</a></div>
 </article>"""
 
 
@@ -229,14 +307,14 @@ def main() -> None:
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I NASTRI — Richmond Jeffrey</title><meta name="description" content="Drawings, paintings, and notes by Richmond Jeffrey.">
 <link rel="stylesheet" href="inastri-home.css"></head><body>
-<header class="site-header"><a class="identity" href="./" aria-label="I NASTRI home"><span class="wordmark">I NASTRI</span><span class="byline">Drawings, paintings, and notes by Richmond Jeffrey</span></a>
-<nav aria-label="Primary navigation"><a href="#work">Recent work</a><a href="#paintings">Paintings</a><a href="#drawings">Drawings</a><a href="writing/">Writing</a></nav></header>
+<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><span class="byline">painting, drawing, and writing by Richmond Jeffrey</span></a>
+<nav aria-label="Primary navigation"><a href="#work">recent work</a><a href="#paintings">paintings</a><a href="#drawings">drawings</a><a href="writing/">writing</a><a href="#archive">archive</a></nav></header>
 <main class="shell" id="work"><section class="feed" aria-label="Recent work">{''.join(rendered)}</section>
-<aside class="sidebar"><section><p class="eyebrow">Archive</p><p>I NASTRI is a continuing record of drawings, paintings, and the thoughts surrounding their making.</p></section>
-<section><label class="eyebrow" for="archive-search">Search the archive</label><div class="search"><input id="archive-search" type="search" placeholder="Title, medium, place…"><button type="button" aria-label="Search">↗</button></div></section>
-<section><p class="eyebrow">Browse</p><ul class="browse-list"><li><a href="paintings/">Paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">Drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">Writing</a><span>1</span></li></ul></section>
-<section><p class="eyebrow">Years</p><div class="years">{year_links}</div></section><section><p class="eyebrow">Follow</p><a href="index.xml">RSS feed</a></section></aside></main>
-<footer class="site-footer"><span>© 2026 Richmond Jeffrey</span><a href="writing/">Writing</a></footer>
+<aside class="sidebar" id="archive"><section><p class="eyebrow">archive</p><p>I Nastri is an ongoing record of paintings, drawings, and the thoughts surrounding their making. Presence over purpose.</p></section>
+<section><label class="eyebrow" for="archive-search">search the archive</label><div class="search"><input id="archive-search" type="search" placeholder="title, medium, place…"><button type="button" aria-label="Search">⟶</button></div></section>
+<section><p class="eyebrow">browse</p><ul class="browse-list"><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
+<section><p class="eyebrow">years</p><div class="years">{year_links}</div></section><section><p class="eyebrow">follow</p><a href="index.xml">rss feed</a></section></aside></main>
+<footer class="site-footer"><span>© 2026 Richmond Jeffrey</span><a href="writing/">writing</a></footer>
 <script>const q=document.querySelector('#archive-search');const posts=[...document.querySelectorAll('.post')];q.addEventListener('input',()=>{{const v=q.value.trim().toLowerCase();posts.forEach(p=>p.hidden=v&&!p.textContent.toLowerCase().includes(v));}});document.querySelectorAll('[data-year]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();q.value=a.dataset.year;q.dispatchEvent(new Event('input'));}}));</script>
 </body></html>"""
     PUBLIC.mkdir(parents=True, exist_ok=True)
