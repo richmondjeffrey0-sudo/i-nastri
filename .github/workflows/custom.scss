@@ -79,6 +79,15 @@ body {
   max-width: 720px;
 }
 
+.page-header {
+  margin-top: 0 !important;
+}
+
+.page-footer,
+.tags {
+  display: none;
+}
+
 .article-title,
 article h1,
 article h2,
