@@ -33,6 +33,9 @@ jobs:
             cp -R content/content-snapshot/. content/
             rm -rf content/content-snapshot
           fi
+          if [ -f content/Index.md ]; then
+            mv content/Index.md content/index.md
+          fi
           cp .github/workflows/custom.scss quartz/styles/custom.scss
       - name: Install Quartz plugins
         run: npx quartz plugin install
