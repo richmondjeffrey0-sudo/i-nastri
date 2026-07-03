@@ -1,5 +1,201 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
+  pageTitle: I Nastri
+  pageTitleSuffix: " — Richmond Jeffrey"
+  enableSPA: true
+  enablePopovers: false
+  analytics: null
+  locale: en-US
+  baseUrl: richmondjeffrey0-sudo.github.io/i-nastri
+  ignorePatterns:
+    - private
+    - templates
+    - .obsidian
+  theme:
+    fontOrigin: googleFonts
+    cdnCaching: true
+    typography:
+      title: Gilda Display
+      header: Gilda Display
+      body: IBM Plex Mono
+      code: IBM Plex Mono
+    colors:
+      lightMode:
+        light: "#FDFFF5"
+        lightgray: "#D8DAD2"
+        gray: "#777873"
+        darkgray: "#20211F"
+        dark: "#080808"
+        secondary: "#080808"
+        tertiary: "#080808"
+        highlight: "rgba(8, 8, 8, 0.06)"
+        textHighlight: "#D8DAD288"
+      darkMode:
+        light: "#080808"
+        lightgray: "#292A27"
+        gray: "#8A8B85"
+        darkgray: "#E2E4DA"
+        dark: "#FDFFF5"
+        secondary: "#FDFFF5"
+        tertiary: "#FDFFF5"
+        highlight: "rgba(253, 255, 245, 0.08)"
+        textHighlight: "#4A4B4788"
+
+plugins:
+  - source: github:quartz-community/note-properties
+    enabled: true
+    options:
+      includeAll: false
+      includedProperties:
+        - medium
+        - dimensions
+        - location
+        - status
+      excludedProperties: []
+      hidePropertiesView: false
+      delimiters: "---"
+      language: yaml
+    order: 5
+    layout:
+      position: beforeBody
+      priority: 15
+      display: all
+
+  - source: github:quartz-community/created-modified-date
+    enabled: true
+    options:
+      defaultDateType: published
+      priority:
+        - frontmatter
+        - git
+        - filesystem
+    order: 10
+
+  - source: github:quartz-community/obsidian-flavored-markdown
+    enabled: true
+    options:
+      enableInHtmlEmbed: false
+      enableCheckbox: true
+    order: 30
+
+  - source: github:quartz-community/github-flavored-markdown
+    enabled: true
+    order: 40
+
+  - source: github:quartz-community/crawl-links
+    enabled: true
+    options:
+      markdownLinkResolution: shortest
+    order: 60
+
+  - source: github:quartz-community/description
+    enabled: true
+    order: 70
+
+  - source: github:quartz-community/fonts
+    enabled: true
+
+  - source: github:quartz-community/remove-draft
+    enabled: true
+
+  - source: github:quartz-community/alias-redirects
+    enabled: true
+
+  - source: github:quartz-community/content-index
+    enabled: true
+    options:
+      enableSiteMap: true
+      enableRSS: true
+
+  - source: github:quartz-community/favicon
+    enabled: true
+
+  - source: github:quartz-community/og-image
+    enabled: true
+
+  - source: github:quartz-community/content-page
+    enabled: true
+
+  - source: github:quartz-community/folder-page
+    enabled: true
+
+  - source: github:quartz-community/tag-page
+    enabled: true
+
+  - source: github:quartz-community/page-title
+    enabled: true
+    layout:
+      position: left
+      priority: 10
+
+  - source: github:quartz-community/search
+    enabled: true
+    layout:
+      position: left
+      priority: 20
+
+  - source: github:quartz-community/explorer
+    enabled: true
+    layout:
+      position: left
+      priority: 30
+
+  - source: github:quartz-community/article-title
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 10
+    condition: not-index
+
+  - source: github:quartz-community/content-meta
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 20
+    condition: not-index
+
+  - source: github:quartz-community/tag-list
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 30
+    condition: not-index
+
+  - source: github:quartz-community/recent-notes
+    enabled: true
+    options:
+      limit: 20
+      showTags: true
+    layout:
+      position: afterBody
+      priority: 10
+    condition: index
+
+  - source: github:quartz-community/footer
+    enabled: true
+    options:
+      links:
+        RSS: /index.xml
+
+layout:
+  groups: {}
+  byPageType:
+    "404":
+      positions:
+        beforeBody: []
+        left: []
+        right: []
+    content: {}
+    folder:
+      positions:
+        right: []
+    tag:
+      positions:
+        right: []
+    canvas: {}
+    bases: {}
+# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
+configuration:
   pageTitle: I NASTRI
   pageTitleSuffix: " — Richmond Jeffrey"
   enableSPA: true
