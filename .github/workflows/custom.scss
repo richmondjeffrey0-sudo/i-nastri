@@ -1,0 +1,140 @@
+@use "./variables.scss" as *;
+
+/* I NASTRI: quiet editorial frame, image-first rhythm. */
+:root {
+  --inastri-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --inastri-sans: "Source Sans 3", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  font-family: var(--inastri-serif);
+  font-size: 17px;
+}
+
+.page {
+  max-width: 1180px;
+}
+
+.page > #quartz-body {
+  grid-template-columns: 250px minmax(0, 760px);
+  grid-template-areas:
+    "grid-sidebar-left grid-header"
+    "grid-sidebar-left grid-center"
+    "grid-sidebar-left grid-footer";
+  column-gap: clamp(2.5rem, 6vw, 6rem);
+}
+
+.page > #quartz-body .sidebar.right {
+  display: none;
+}
+
+.page > #quartz-body .sidebar.left {
+  border-right: 1px solid var(--lightgray);
+  padding-right: 2rem;
+}
+
+.page-title,
+.article-title,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--inastri-serif);
+  font-weight: 400;
+}
+
+.page-title {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.article-title {
+  color: var(--secondary);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+}
+
+.content-meta,
+.tags,
+.explorer,
+.search,
+footer,
+.note-properties {
+  font-family: var(--inastri-sans);
+  font-size: 0.78rem;
+}
+
+article img {
+  width: auto;
+  max-height: min(78vh, 900px);
+  margin: 2rem auto;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+article > p {
+  max-width: 68ch;
+}
+
+article > p:has(> img) {
+  max-width: none;
+}
+
+.recent-notes > ul,
+.recent-notes ul.recent-ul {
+  padding: 0;
+  list-style: none;
+}
+
+.recent-notes li,
+.recent-notes .recent-li {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--lightgray);
+}
+
+a {
+  text-underline-offset: 0.2em;
+}
+
+a.internal {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--dark);
+}
+
+@media all and (max-width: 1200px) {
+  .page > #quartz-body {
+    grid-template-columns: 220px minmax(0, 760px);
+    grid-template-areas:
+      "grid-sidebar-left grid-header"
+      "grid-sidebar-left grid-center"
+      "grid-sidebar-left grid-footer";
+  }
+}
+
+@media all and (max-width: 800px) {
+  .page > #quartz-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "grid-sidebar-left"
+      "grid-header"
+      "grid-center"
+      "grid-footer";
+  }
+
+  .page > #quartz-body .sidebar.left {
+    border-right: 0;
+    border-bottom: 1px solid var(--lightgray);
+    padding: 1.25rem 0;
+  }
+}
