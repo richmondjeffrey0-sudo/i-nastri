@@ -39,8 +39,12 @@ jobs:
           cp .github/workflows/custom.scss quartz/styles/custom.scss
       - name: Install Quartz plugins
         run: npx quartz plugin install
+      - name: Prepare I NASTRI post metadata
+        run: python3 .github/workflows/build_home.py --prepare
       - name: Build site
         run: npx quartz build
+      - name: Build I NASTRI artwork homepage
+        run: python3 .github/workflows/build_home.py
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
