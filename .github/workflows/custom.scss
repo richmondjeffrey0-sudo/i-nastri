@@ -28,11 +28,13 @@ body {
 .page > #quartz-body .sidebar.left {
   position: static;
   width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
   margin: 48px 0 38px;
   padding: 24px 0 22px;
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(180px, 300px);
-  grid-template-areas: "title search" "explorer explorer";
+  grid-template-columns: minmax(280px, 1fr);
+  grid-template-areas: "title";
   align-items: end;
   gap: 14px 32px;
   border-top: 1px solid var(--dark);
@@ -61,16 +63,11 @@ body {
 }
 
 .sidebar.left .search {
-  grid-area: search;
-  font-family: var(--inastri-sans);
+  display: none;
 }
 
 .sidebar.left .explorer {
-  grid-area: explorer;
-  margin: 0;
-  font: 400 .75rem/1.4 var(--inastri-sans);
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  display: none;
 }
 
 .page > #quartz-body .sidebar.right {
@@ -154,7 +151,7 @@ footer {
   .page > #quartz-body .sidebar.left {
     margin-top: 24px;
     grid-template-columns: 1fr;
-    grid-template-areas: "title" "search" "explorer";
+    grid-template-areas: "title";
   }
 
   .sidebar.left .page-title {
