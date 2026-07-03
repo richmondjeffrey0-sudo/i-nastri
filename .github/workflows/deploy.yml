@@ -44,13 +44,19 @@ jobs:
       - name: Build site
         run: npx quartz build
       - name: Build I NASTRI artwork homepage
-        run: python3 .github/workflows/build_home.py
+        run: |
+          python3 .github/workflows/build_home.py
+          test -f public/inastri-home.css
+          grep -q 'class="post"' public/index.html
+          rm -rf _site
+          mkdir _site
+          cp -R public/. _site/
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: public
+          path: _site
 
   deploy:
     environment:
