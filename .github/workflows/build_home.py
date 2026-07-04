@@ -6,7 +6,10 @@ from __future__ import annotations
 import html
 import argparse
 import re
+import subprocess
+from collections import Counter
 from dataclasses import dataclass
+from datetime import date as calendar_date
 from pathlib import Path
 
 
@@ -40,13 +43,11 @@ a { color: inherit; text-decoration: none; }
 a:hover { opacity: .52; }
 img { display: block; max-width: 100%; }
 .site-header {
-  width: min(1120px, calc(100% - 64px));
-  margin: 42px auto 104px;
+  width: min(1280px, calc(100% - 64px));
+  margin: 42px auto 68px;
   padding: 19px 0 18px;
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
-  gap: 44px;
   border-top: 1px solid var(--black);
   border-bottom: 1px solid var(--rule);
 }
@@ -61,27 +62,18 @@ img { display: block; max-width: 100%; }
   font: 300 .64rem/1.4 var(--ui);
   letter-spacing: .08em;
 }
-.site-header nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 9px 24px;
-  padding-bottom: 4px;
-  color: var(--quiet);
-  font: 300 .63rem/1 var(--ui);
-  letter-spacing: .055em;
-  text-transform: lowercase;
-}
-.site-header nav::before { content: "index"; margin-right: 6px; opacity: .6; }
-.site-header nav a { padding-bottom: 5px; border-bottom: 1px solid transparent; }
-.site-header nav a:hover { color: var(--black); opacity: 1; border-color: var(--hairline); }
 .shell {
-  width: min(1120px, calc(100% - 64px));
+  width: min(1280px, calc(100% - 64px));
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 940px) 220px;
+  grid-template-areas: "feed sidebar";
+  gap: clamp(54px, 6vw, 92px);
+  align-items: start;
 }
 .feed {
-  width: min(100%, 940px);
-  margin: 0 auto;
+  grid-area: feed;
+  min-width: 0;
 }
 .post {
   padding: 0 0 clamp(94px, 11vw, 148px);
@@ -91,13 +83,20 @@ img { display: block; max-width: 100%; }
 .post:nth-child(3n + 2) { padding-bottom: clamp(116px, 13vw, 172px); }
 .post:nth-child(4n) { margin-bottom: clamp(124px, 15vw, 198px); }
 .post[hidden] { display: none; }
+.post-date {
+  margin: 0 0 17px;
+  color: var(--quiet);
+  font: 300 .6rem/1.4 var(--ui);
+  letter-spacing: .065em;
+  text-transform: lowercase;
+}
 .inventory { width: min(100%, 520px); margin: 27px 0 0; }
 .post h1 {
   margin: 0 0 13px;
   font: 400 clamp(1.32rem, 2vw, 1.72rem)/1.15 var(--display);
   letter-spacing: .075em;
 }
-.date {
+.completion-date {
   display: block;
   margin: 0;
   color: var(--quiet);
@@ -105,37 +104,42 @@ img { display: block; max-width: 100%; }
   letter-spacing: .045em;
   text-transform: lowercase;
 }
-.artwork { display: block; width: 100%; background: rgba(8, 8, 8, .025); }
-.post:nth-child(3n + 2) .artwork { width: 94%; margin-inline: auto; }
-.post:nth-child(5n) .artwork { width: 97%; margin-inline: auto; }
-.artwork img { width: 100%; max-height: 84vh; object-fit: contain; }
+.artwork { display: block; width: 100%; background: transparent; }
+.artwork img { width: auto; height: auto; max-width: 100%; max-height: none; margin: 0; object-fit: initial; }
 .inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--quiet); font: 300 .65rem/1.65 var(--ui); }
 .inventory-data span { display: block; }
 .sold { margin-top: 5px; letter-spacing: .09em; text-transform: lowercase; }
 .details { display: inline-block; margin-top: 15px; padding-bottom: 3px; color: var(--black); border-bottom: 1px solid var(--hairline); font-size: .63rem; }
-.archive-index {
-  width: min(100%, 940px);
-  margin: 0 auto 118px;
-  padding-top: 25px;
-  display: grid;
-  grid-template-columns: 1.45fr 1fr 1fr;
-  gap: clamp(34px, 6vw, 82px);
+.sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  top: 24px;
+  padding: 18px 17px 3px;
   color: var(--quiet);
-  border-top: 1px solid var(--hairline);
-  font-size: .64rem;
+  border: 1px solid var(--hairline);
+  font-size: .63rem;
+  line-height: 1.65;
+  letter-spacing: .025em;
 }
-.archive-index section { margin: 0; }
-.archive-index p { margin-top: 0; max-width: 44ch; }
-.eyebrow { display: block; margin-bottom: 14px; color: var(--black); font: 400 .62rem/1 var(--ui); letter-spacing: .08em; text-transform: lowercase; }
-.search { display: flex; max-width: 280px; border-bottom: 1px solid var(--hairline); }
+.sidebar section { padding: 0 0 17px; margin: 0 0 18px; border-bottom: 1px solid var(--hairline); }
+.sidebar section:last-child { border-bottom: 0; }
+.sidebar p { margin-top: 0; }
+.eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .57rem/1 var(--ui); letter-spacing: .11em; text-transform: uppercase; }
+.search { display: flex; border-bottom: 1px solid var(--hairline); }
 .search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
 .search input::placeholder { color: var(--quiet); }
 .search button { border: 0; color: var(--black); background: transparent; cursor: pointer; }
 .browse-list { padding: 0; margin: 0; list-style: none; }
-.browse-list li { padding: 4px 0; }
-.years { display: flex; flex-wrap: wrap; gap: 7px 15px; margin-top: 18px; }
+.browse-list { counter-reset: track; }
+.browse-list li { counter-increment: track; display: grid; grid-template-columns: 22px 1fr auto; padding: 5px 0; border-bottom: 1px solid var(--hairline); }
+.browse-list li::before { content: counter(track, decimal-leading-zero); color: var(--quiet); }
+.browse-list span { color: var(--quiet); }
+.years { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.tag-cloud { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; }
+.tag-cloud a { font-size: calc(.58rem + (var(--weight) * .08rem)); line-height: 1.35; }
+.tag-cloud small { margin-left: 2px; color: var(--quiet); font-size: .52rem; }
 .site-footer {
-  width: min(1120px, calc(100% - 64px));
+  width: min(1280px, calc(100% - 64px));
   margin: 8px auto 38px;
   padding-top: 20px;
   display: flex;
@@ -145,22 +149,19 @@ img { display: block; max-width: 100%; }
   font: 300 .62rem/1.4 var(--ui);
   text-transform: lowercase;
 }
-@media (max-width: 840px) {
-  .site-header { margin-top: 24px; display: grid; }
-  .site-header nav { justify-content: flex-start; }
-  .archive-index { grid-template-columns: 1.3fr 1fr; }
-  .archive-index .archive-note { grid-column: 1 / -1; }
+@media (max-width: 980px) {
+  .site-header { margin-top: 24px; }
+  .shell { grid-template-columns: 1fr; grid-template-areas: "sidebar" "feed"; }
+  .sidebar { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; margin-bottom: 68px; }
+  .sidebar section { margin-bottom: 25px; }
 }
 @media (max-width: 620px) {
   .site-header, .shell, .site-footer { width: min(100% - 30px, 1180px); }
-  .site-header { margin-bottom: 76px; }
+  .site-header { margin-bottom: 52px; }
   .wordmark { white-space: normal; }
   .byline { max-width: 38ch; }
-  .site-header nav::before { width: 100%; }
   .inventory { margin-top: 21px; }
-  .post:nth-child(3n + 2) .artwork, .post:nth-child(5n) .artwork { width: 100%; }
-  .archive-index { grid-template-columns: 1fr; }
-  .archive-index .archive-note { grid-column: auto; }
+  .sidebar { grid-template-columns: 1fr; }
 }
 """
 
@@ -177,7 +178,8 @@ MONTHS = {
 class Post:
     title: str
     category: str
-    date: str
+    completion_date: str
+    post_date: str
     year: int
     month: int
     image: str
@@ -185,6 +187,7 @@ class Post:
     facts: str
     place: str
     sold: bool
+    tags: tuple[str, ...]
 
 
 def slug_part(value: str) -> str:
@@ -203,6 +206,56 @@ def split_frontmatter(text: str) -> tuple[dict[str, str], str]:
             key, value = line.split(":", 1)
             data[key.strip().lower()] = value.strip().strip('"\'')
     return data, text[end + 4 :].lstrip()
+
+
+def frontmatter_tags(text: str) -> tuple[str, ...]:
+    """Read both YAML list and inline tags without adding a YAML dependency."""
+    if not text.startswith("---\n") or (end := text.find("\n---", 4)) < 0:
+        return ()
+    lines = text[4:end].splitlines()
+    tags: list[str] = []
+    reading_tags = False
+    for line in lines:
+        if re.match(r"^tags\s*:", line, re.I):
+            reading_tags = True
+            inline = line.split(":", 1)[1].strip().strip("[]")
+            if inline:
+                tags.extend(part.strip().strip("'\"") for part in inline.split(","))
+            continue
+        if reading_tags and (match := re.match(r"^\s*-\s*(.+?)\s*$", line)):
+            tags.append(match.group(1).strip().strip("'\""))
+            continue
+        if reading_tags and line and not line[0].isspace():
+            break
+    return tuple(dict.fromkeys(tag.lower() for tag in tags if tag))
+
+
+def display_date(value: str) -> str:
+    match = re.match(r"^(\d{4})-(\d{2})-(\d{2})", value)
+    if not match:
+        return value
+    year, month, day = (int(part) for part in match.groups())
+    names = ("", "January", "February", "March", "April", "May", "June",
+             "July", "August", "September", "October", "November", "December")
+    return f"{day} {names[month]} {year}"
+
+
+def publication_date(path: Path, frontmatter: dict[str, str]) -> str:
+    explicit = frontmatter.get("published") or frontmatter.get("publishdate")
+    if explicit:
+        return display_date(explicit)
+    try:
+        relative = path.relative_to(ROOT)
+        result = subprocess.run(
+            ["git", "log", "--follow", "--diff-filter=A", "--format=%cs", "--", str(relative)],
+            cwd=ROOT, capture_output=True, text=True, check=False,
+        )
+        dates = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+        if dates:
+            return display_date(dates[-1])
+    except (OSError, ValueError):
+        pass
+    return display_date(calendar_date.today().isoformat())
 
 
 def normalize_notes() -> None:
@@ -260,26 +313,43 @@ def parse_post(path: Path) -> Post | None:
         if not value or value.startswith("#") or value.startswith("![[") or value == "RDJ":
             continue
         clean_lines.append(value)
-    date = next((line for line in clean_lines if re.search(r"\b(?:19|20)\d{2}\b", line)), "Undated")
-    year_match = re.search(r"\b((?:19|20)\d{2})\b", date)
+    date_line = next((line for line in clean_lines if re.search(r"\b(?:19|20)\d{2}\b", line)), "Undated")
+    date_fragment = re.search(
+        r"\b(?:" + "|".join(MONTHS) + r")\b\s*,?\s*(?:19|20)\d{2}\b|\b(?:19|20)\d{2}\b",
+        date_line, re.I,
+    )
+    completion_date = date_fragment.group(0) if date_fragment else date_line
+    year_match = re.search(r"\b((?:19|20)\d{2})\b", completion_date)
     year = int(year_match.group(1)) if year_match else 0
-    lower_date = date.lower()
+    lower_date = completion_date.lower()
     month = next((number for name, number in MONTHS.items() if name in lower_date), 0)
-    place_lines = [line for line in clean_lines if any(word in line.lower() for word in ("museum", "paris", "france", "new york"))]
+    place_lines = []
+    for line in clean_lines:
+        if any(word in line.lower() for word in ("museum", "paris", "france", "new york")):
+            place_value = line
+            if line == date_line and date_fragment:
+                place_value = (line[: date_fragment.start()] + line[date_fragment.end() :]).strip(" ,")
+            if place_value:
+                place_lines.append(place_value)
     place = " · ".join(place_lines)
     fact_lines = [
         line.rstrip(".") for line in clean_lines
-        if line != date and line not in place_lines and "sold" not in line.lower()
+        if line != date_line and line not in place_lines and "sold" not in line.lower()
     ]
     facts = " · ".join(fact_lines)
     sold = "sold" in body.lower()
+    tags = frontmatter_tags(raw)
+    if category not in tags:
+        tags = (category, *tags)
     folder = path.parent.name.lower()
     url = f"{folder}/{slug_part(path.stem)}"
-    return Post(title, category, date, year, month, image, url, facts, place, sold)
+    return Post(title, category, completion_date, publication_date(path, frontmatter), year, month,
+                image, url, facts, place, sold, tags)
 
 
 def post_html(post: Post, anchor: str) -> str:
     title = html.escape(post.title)
+    search_terms = " ".join((post.title, post.category, post.facts, post.place, *post.tags)).lower()
     facts = "".join(
         f"<span>{html.escape(item)}</span>"
         for item in post.facts.split(" · ") if item
@@ -289,9 +359,10 @@ def post_html(post: Post, anchor: str) -> str:
         for item in post.place.split(" · ") if item
     )
     sold = '<span class="sold">sold</span>' if post.sold else ""
-    return f"""<article class="post"{anchor} data-search="{html.escape(post.title.lower())}">
+    return f"""<article class="post"{anchor} data-search="{html.escape(search_terms)}">
+  <p class="post-date">posted {html.escape(post.post_date)}</p>
   <a class="artwork" href="{html.escape(post.url)}" aria-label="View {title}"><img src="{html.escape(post.image)}" alt="{title}" loading="lazy"></a>
-  <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="date">{html.escape(post.date)}</span>{sold}<a class="details" href="{html.escape(post.url)}">view work&nbsp; ⟶</a></div></div>
+  <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="completion-date">completed {html.escape(post.completion_date)}</span>{sold}<a class="details" href="{html.escape(post.url)}">view work&nbsp; ⟶</a></div></div>
 </article>"""
 
 
@@ -306,6 +377,8 @@ def main() -> None:
     posts = [post for path in CONTENT.rglob("*.md") if (post := parse_post(path))]
     featured = {"Portrait of Carolina": 4, "Satyr and Bather": 3, "Slimness of Comforts": 2, "Forsythia": 1}
     posts.sort(key=lambda p: (featured.get(p.title, 0), p.year, p.month, p.title.lower()), reverse=True)
+    counts = Counter(post.category for post in posts)
+    tag_counts = Counter(tag for post in posts for tag in post.tags)
     years = sorted({post.year for post in posts if post.year}, reverse=True)
     used_anchors: set[str] = set()
     rendered = []
@@ -317,18 +390,30 @@ def main() -> None:
             used_anchors.add(anchor_name)
         rendered.append(post_html(post, anchor))
     year_links = "".join(f'<a href="#" data-year="{year}">{year}</a>' for year in years)
+    low = min(tag_counts.values(), default=1)
+    high = max(tag_counts.values(), default=1)
+    tag_links = []
+    for tag, count in sorted(tag_counts.items(), key=lambda item: (-item[1], item[0])):
+        weight = 2 if high == low else 1 + round((count - low) / (high - low) * 3)
+        tag_links.append(
+            f'<a href="#" data-tag="{html.escape(tag)}" style="--weight:{weight}">'
+            f'{html.escape(tag)} <small>{count}</small></a>'
+        )
     page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I NASTRI — Richmond Jeffrey</title><meta name="description" content="Drawings, paintings, and notes by Richmond Jeffrey.">
 <link rel="stylesheet" href="inastri-home.css"></head><body>
-<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><span class="byline">painting, drawing, and writing by Richmond Jeffrey</span></a>
-<nav aria-label="Archive index"><a href="#paintings">paintings</a><a href="#drawings">drawings</a><a href="writing/">writing</a><a href="#archive">archive</a></nav></header>
-<main class="shell" id="work"><section class="feed" aria-label="Recent work">{''.join(rendered)}</section>
-<aside class="archive-index" id="archive"><section class="archive-note"><p class="eyebrow">I Nastri / archive</p><p>An ongoing record of paintings, drawings, and notes surrounding their making.</p></section>
-<section><label class="eyebrow" for="archive-search">finding aid</label><div class="search"><input id="archive-search" type="search" placeholder="title, medium, place…"><button type="button" aria-label="Search">⟶</button></div><div class="years">{year_links}</div></section>
-<section><p class="eyebrow">contents</p><ul class="browse-list"><li><a href="paintings/">paintings</a></li><li><a href="drawings/">drawings</a></li><li><a href="writing/">writing</a></li><li><a href="index.xml">rss</a></li></ul></section></aside></main>
-<footer class="site-footer"><span>© 2026 Richmond Jeffrey</span><a href="writing/">writing</a></footer>
-<script>const q=document.querySelector('#archive-search');const posts=[...document.querySelectorAll('.post')];q.addEventListener('input',()=>{{const v=q.value.trim().toLowerCase();posts.forEach(p=>p.hidden=v&&!p.textContent.toLowerCase().includes(v));}});document.querySelectorAll('[data-year]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();q.value=a.dataset.year;q.dispatchEvent(new Event('input'));}}));</script>
+<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><span class="byline">painting, drawing, and writing by Richmond Jeffrey</span></a></header>
+<main class="shell" id="work"><aside class="sidebar" id="archive">
+<section><p class="eyebrow">side a / archive</p><p>I Nastri is an ongoing record of paintings, drawings, and the thoughts surrounding their making. Presence over purpose.</p></section>
+<section><p class="eyebrow">a1 / contents</p><ul class="browse-list"><li><a href="#work">recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
+<section><label class="eyebrow" for="archive-search">a2 / finding aid</label><div class="search"><input id="archive-search" type="search" placeholder="title, medium, place…"><button type="button" aria-label="Search">⟶</button></div></section>
+<section><p class="eyebrow">side b / tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
+<section><p class="eyebrow">b1 / years</p><div class="years">{year_links}</div></section>
+<section><p class="eyebrow">b2 / follow</p><a href="index.xml">rss feed</a></section></aside>
+<section class="feed" aria-label="Recent work">{''.join(rendered)}</section></main>
+<footer class="site-footer"><span>© 2026 Richmond Jeffrey</span></footer>
+<script>const q=document.querySelector('#archive-search');const posts=[...document.querySelectorAll('.post')];const applyFilter=()=>{{const v=q.value.trim().toLowerCase();posts.forEach(p=>p.hidden=v&&!((p.dataset.search+' '+p.textContent).toLowerCase().includes(v)));}};q.addEventListener('input',applyFilter);document.querySelectorAll('[data-year],[data-tag]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();q.value=a.dataset.year||a.dataset.tag;applyFilter();}}));const targetArea=520000;const artworkImages=[...document.querySelectorAll('.artwork img')];const sizeArtwork=img=>{{if(!img.naturalWidth)return;const ratio=img.naturalWidth/img.naturalHeight;const available=img.closest('.artwork').clientWidth;img.style.width=Math.round(Math.min(available,Math.sqrt(targetArea*ratio)))+'px';img.style.height='auto';}};artworkImages.forEach(img=>{{if(img.complete)sizeArtwork(img);else img.addEventListener('load',()=>sizeArtwork(img),{{once:true}});}});window.addEventListener('resize',()=>artworkImages.forEach(sizeArtwork));</script>
 </body></html>"""
     PUBLIC.mkdir(parents=True, exist_ok=True)
     (PUBLIC / "index.html").write_text(page, encoding="utf-8")
