@@ -47,21 +47,17 @@ img { display: block; max-width: 100%; }
   margin: 42px auto 68px;
   padding: 19px 0 18px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   border-top: 1px solid var(--black);
   border-bottom: 1px solid var(--rule);
 }
-.identity { display: grid; gap: 8px; }
+.identity { display: flex; align-items: center; gap: clamp(24px, 4vw, 58px); }
 .wordmark {
   font: 400 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--display);
   letter-spacing: .165em;
   white-space: nowrap;
 }
-.byline {
-  color: var(--quiet);
-  font: 300 .64rem/1.4 var(--ui);
-  letter-spacing: .08em;
-}
+.title-mark { display: block; width: clamp(92px, 12vw, 154px); height: auto; flex: 0 0 auto; }
 .shell {
   width: min(1280px, calc(100% - 64px));
   margin: 0 auto;
@@ -169,7 +165,8 @@ img { display: block; max-width: 100%; }
   .site-header, .shell, .site-footer { width: min(100% - 30px, 1180px); }
   .site-header { margin-bottom: 52px; }
   .wordmark { white-space: normal; }
-  .byline { max-width: 38ch; }
+  .identity { gap: 22px; }
+  .title-mark { width: 92px; }
   .inventory { margin-top: 21px; }
   .sidebar { grid-template-columns: 1fr; }
 }
@@ -413,7 +410,7 @@ def main() -> None:
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I NASTRI — Richmond Jeffrey</title><meta name="description" content="Drawings, paintings, and notes by Richmond Jeffrey.">
 <link rel="stylesheet" href="inastri-home.css"></head><body>
-<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><span class="byline">painting, drawing, and writing by Richmond Jeffrey</span></a></header>
+<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
 <section class="archive-copy"><p class="eyebrow">side a / archive</p><p>I NASTRI is the personal homepage of Richmond Jeffrey. It is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by category or more specifically by tags using the links below in the sidebar menu, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please reach out to me at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>. For my official portfolio site, which includes featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
 <section><p class="eyebrow">a1 / contents</p><ul class="browse-list"><li><a href="#work">recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
