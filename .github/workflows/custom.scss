@@ -1,16 +1,18 @@
 @use "./variables.scss" as *;
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap');
 
 :root {
   --light: #f7f7f7;
-  --lightgray: rgba(8, 8, 8, .14);
-  --gray: rgba(8, 8, 8, .74);
+  --lightgray: #080808;
+  --gray: #080808;
   --darkgray: #080808;
   --dark: #080808;
   --secondary: #080808;
   --tertiary: #080808;
-  --highlight: rgba(8, 8, 8, .06);
+  --highlight: #f7f7f7;
   --inastri-display: "Gilda Display", "Iowan Old Style", "Baskerville", serif;
   --inastri-ui: "IBM Plex Mono", "Courier New", monospace;
+  --inastri-humanist: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
 }
 
 html,
@@ -27,12 +29,12 @@ body {
 }
 
 .page {
-  max-width: 1120px;
+  max-width: 1000px;
 }
 
 .page > #quartz-body {
   display: grid;
-  grid-template-columns: minmax(0, 940px);
+  grid-template-columns: minmax(0, 820px);
   grid-template-areas:
     "grid-sidebar-left"
     "grid-center"
@@ -86,13 +88,13 @@ body {
 
 .center {
   width: 100%;
-  max-width: 940px;
+  max-width: 820px;
 }
 
 .page-header {
   margin-top: 0 !important;
   padding-bottom: 26px;
-  border-bottom: 1px solid rgba(8, 8, 8, .14);
+  border-bottom: 1px solid #080808;
 }
 
 .article-title,
@@ -118,7 +120,7 @@ article > h1:first-child {
 .content-meta,
 .note-properties,
 footer {
-  color: rgba(8, 8, 8, .74);
+  color: #080808;
   font: 300 .68rem/1.55 var(--inastri-ui);
   letter-spacing: .035em;
 }
@@ -156,18 +158,20 @@ a.internal {
   background: transparent;
   border-radius: 0;
   text-decoration: none;
-  border-bottom: 1px solid rgba(8, 8, 8, .35);
+  border-bottom: 1px solid #080808;
 }
 
 article a:hover,
 a.internal:hover {
-  opacity: .52;
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 footer {
   margin-top: 7rem;
   padding-top: 1.2rem;
-  border-top: 1px solid rgba(8, 8, 8, .14);
+  border-top: 1px solid #080808;
   text-transform: lowercase;
 }
 
