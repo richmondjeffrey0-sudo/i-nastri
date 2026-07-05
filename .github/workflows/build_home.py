@@ -18,15 +18,16 @@ CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
 
 
-STYLE = r"""@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=IBM+Plex+Mono:wght@300;400&display=swap');
+STYLE = r"""@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=IBM+Plex+Mono:wght@300;400&family=Source+Sans+3:wght@400;600&display=swap');
 :root {
   --milk: #f7f7f7;
   --black: #080808;
-  --quiet: rgba(8, 8, 8, .74);
-  --rule: rgba(8, 8, 8, .28);
-  --hairline: rgba(8, 8, 8, .14);
+  --quiet: #080808;
+  --rule: #080808;
+  --hairline: #080808;
   --display: "Gilda Display", "Iowan Old Style", "Baskerville", serif;
   --ui: "IBM Plex Mono", "Courier New", monospace;
+  --humanist: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--milk); }
@@ -40,10 +41,10 @@ body {
   letter-spacing: .012em;
 }
 a { color: inherit; text-decoration: none; }
-a:hover { opacity: .52; }
+a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
 img { display: block; max-width: 100%; }
 .site-header {
-  width: min(1280px, calc(100% - 64px));
+  width: min(1120px, calc(100% - 128px));
   margin: 42px auto 68px;
   padding: 19px 0 18px;
   display: flex;
@@ -57,12 +58,12 @@ img { display: block; max-width: 100%; }
 }
 .title-mark { display: block; width: clamp(115px, 15vw, 193px); height: auto; flex: 0 0 auto; }
 .shell {
-  width: min(1280px, calc(100% - 64px));
+  width: min(1120px, calc(100% - 128px));
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 940px) 264px;
+  grid-template-columns: minmax(0, 800px) 264px;
   grid-template-areas: "feed sidebar";
-  gap: clamp(48px, 5vw, 76px);
+  gap: clamp(32px, 4vw, 56px);
   align-items: start;
 }
 .feed {
@@ -70,16 +71,16 @@ img { display: block; max-width: 100%; }
   min-width: 0;
 }
 .post {
-  padding: 0 0 clamp(62px, 7vw, 94px);
-  margin: 0 0 clamp(72px, 9vw, 116px);
+  padding: 0 0 clamp(31px, 3.5vw, 47px);
+  margin: 0 0 clamp(36px, 4.5vw, 58px);
   border-bottom: 1px solid var(--rule);
 }
-.post:nth-child(3n + 2) { padding-bottom: clamp(72px, 8vw, 106px); }
-.post:nth-child(4n) { margin-bottom: clamp(82px, 10vw, 124px); }
+.post:nth-child(3n + 2) { padding-bottom: clamp(36px, 4vw, 53px); }
+.post:nth-child(4n) { margin-bottom: clamp(41px, 5vw, 62px); }
 .post[hidden] { display: none; }
 .post-date {
   margin: 0 0 17px;
-  color: rgba(8, 8, 8, .8);
+  color: var(--black);
   font: 300 .69rem/1.4 var(--ui);
   letter-spacing: .045em;
 }
@@ -92,14 +93,14 @@ img { display: block; max-width: 100%; }
 .completion-date {
   display: block;
   margin: 0;
-  color: rgba(8, 8, 8, .78);
+  color: var(--black);
   font: 300 .64rem/1.5 var(--ui);
   letter-spacing: .045em;
   text-transform: lowercase;
 }
 .artwork { display: block; width: 100%; background: transparent; }
 .artwork img { width: auto; height: auto; max-width: 100%; max-height: none; margin: 0; object-fit: initial; }
-.inventory-data { display: grid; justify-items: start; gap: 2px; color: rgba(8, 8, 8, .78); font: 300 .69rem/1.65 var(--ui); }
+.inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--black); font: 300 .69rem/1.65 var(--ui); }
 .inventory-data span { display: block; }
 .sold { margin-top: 5px; letter-spacing: .09em; text-transform: lowercase; }
 .details { display: inline-block; margin-top: 15px; padding-bottom: 3px; color: var(--black); border-bottom: 1px solid var(--hairline); font-size: .63rem; }
@@ -108,15 +109,16 @@ img { display: block; max-width: 100%; }
   position: sticky;
   top: 24px;
   padding: 18px 17px 3px;
-  color: rgba(8, 8, 8, .78);
+  color: var(--black);
   border: 1px solid var(--hairline);
-  font-size: .7rem;
+  font: 400 .76rem/1.65 var(--humanist);
   line-height: 1.7;
   letter-spacing: .025em;
 }
 .sidebar section { padding: 0 0 17px; margin: 0 0 18px; border-bottom: 1px solid var(--hairline); }
 .sidebar section:last-child { border-bottom: 0; }
 .sidebar p { margin-top: 0; }
+.archive-copy { font: 400 .78rem/1.65 var(--humanist); }
 .archive-copy a { color: var(--black); border-bottom: 1px solid var(--hairline); }
 .archive-copy blockquote {
   margin: 15px 0 0;
@@ -127,7 +129,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: .025em;
 }
 .archive-copy cite { display: block; margin-top: 7px; color: var(--quiet); font: normal 300 .55rem/1 var(--ui); letter-spacing: .1em; }
-.eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .64rem/1 var(--ui); letter-spacing: .08em; text-transform: none; }
+.eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .88rem/1 var(--display); letter-spacing: .055em; text-transform: none; }
 .search { display: flex; border-bottom: 1px solid var(--hairline); }
 .search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
 .search input::placeholder { color: var(--quiet); }
@@ -135,14 +137,14 @@ img { display: block; max-width: 100%; }
 .browse-list { padding: 0; margin: 0; list-style: none; }
 .browse-list { counter-reset: track; }
 .browse-list li { counter-increment: track; display: grid; grid-template-columns: 22px 1fr auto; padding: 5px 0; border-bottom: 1px solid var(--hairline); }
-.browse-list li::before { content: counter(track, decimal-leading-zero); color: var(--quiet); }
+.browse-list li::before { content: counter(track, decimal-leading-zero); color: var(--quiet); font-family: var(--ui); font-size: .63rem; }
 .browse-list span { color: var(--quiet); }
-.years { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.years { display: flex; flex-wrap: wrap; gap: 8px 14px; font-family: var(--ui); font-size: .67rem; }
 .tag-cloud { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; }
-.tag-cloud a { font-size: calc(.58rem + (var(--weight) * .08rem)); line-height: 1.35; }
+.tag-cloud a { font-family: var(--display); font-size: calc(.67rem + (var(--weight) * .09rem)); line-height: 1.35; }
 .tag-cloud small { margin-left: 2px; color: var(--quiet); font-size: .52rem; }
 .site-footer {
-  width: min(1280px, calc(100% - 64px));
+  width: min(1120px, calc(100% - 128px));
   margin: 8px auto 38px;
   padding-top: 20px;
   display: flex;
@@ -411,9 +413,9 @@ def main() -> None:
 <header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
 <section class="archive-copy"><p>I NASTRI is the personal homepage of Richmond Jeffrey. It is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by category or more specifically by tags using the links below in the sidebar menu, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please reach out to me at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>. For my official portfolio site, which includes featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
-<section><p class="eyebrow">categories</p><ul class="browse-list"><li><a href="#work" data-reset>recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
-<section><p class="eyebrow">tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
-<section><p class="eyebrow">archive</p><div class="years">{year_links}</div></section>
+<section><p class="eyebrow">Categories</p><ul class="browse-list"><li><a href="#work" data-reset>recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
+<section><p class="eyebrow">Tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
+<section><p class="eyebrow">Archive</p><div class="years">{year_links}</div></section>
 <section><p class="eyebrow">Links</p><a href="index.xml">rss feed</a></section></aside>
 <section class="feed" aria-label="Recent work">{''.join(rendered)}</section></main>
 <footer class="site-footer"><span>© 2026 Richmond Jeffrey</span></footer>
