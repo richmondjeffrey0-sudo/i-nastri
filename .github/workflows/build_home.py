@@ -48,12 +48,10 @@ img { display: block; max-width: 100%; }
   padding: 19px 0 18px;
   display: flex;
   align-items: center;
-  border-top: 1px solid var(--black);
-  border-bottom: 1px solid var(--rule);
 }
 .identity { display: flex; align-items: center; gap: clamp(24px, 4vw, 58px); }
 .wordmark {
-  font: 400 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--display);
+  font: 700 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--display);
   letter-spacing: .165em;
   white-space: nowrap;
 }
