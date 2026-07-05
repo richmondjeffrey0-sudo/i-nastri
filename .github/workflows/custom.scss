@@ -141,6 +141,21 @@ article img {
   background: transparent;
 }
 
+article img,
+article img:hover,
+article a:hover img {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  mix-blend-mode: normal !important;
+  transition: none !important;
+}
+
+article a:has(img):hover {
+  opacity: 1 !important;
+  text-decoration: none !important;
+}
+
 article > p {
   max-width: 68ch;
 }
