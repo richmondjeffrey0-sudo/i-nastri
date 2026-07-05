@@ -20,11 +20,11 @@ PUBLIC = ROOT / "public"
 
 STYLE = r"""@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=IBM+Plex+Mono:wght@300;400&display=swap');
 :root {
-  --milk: #fdfff5;
+  --milk: #f7f7f7;
   --black: #080808;
-  --quiet: rgba(8, 8, 8, .62);
-  --rule: rgba(8, 8, 8, .16);
-  --hairline: rgba(8, 8, 8, .085);
+  --quiet: rgba(8, 8, 8, .74);
+  --rule: rgba(8, 8, 8, .28);
+  --hairline: rgba(8, 8, 8, .14);
   --display: "Gilda Display", "Iowan Old Style", "Baskerville", serif;
   --ui: "IBM Plex Mono", "Courier New", monospace;
 }
@@ -57,14 +57,14 @@ img { display: block; max-width: 100%; }
   letter-spacing: .165em;
   white-space: nowrap;
 }
-.title-mark { display: block; width: clamp(92px, 12vw, 154px); height: auto; flex: 0 0 auto; }
+.title-mark { display: block; width: clamp(115px, 15vw, 193px); height: auto; flex: 0 0 auto; }
 .shell {
   width: min(1280px, calc(100% - 64px));
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 940px) 220px;
+  grid-template-columns: minmax(0, 940px) 264px;
   grid-template-areas: "feed sidebar";
-  gap: clamp(54px, 6vw, 92px);
+  gap: clamp(48px, 5vw, 76px);
   align-items: start;
 }
 .feed {
@@ -72,19 +72,18 @@ img { display: block; max-width: 100%; }
   min-width: 0;
 }
 .post {
-  padding: 0 0 clamp(94px, 11vw, 148px);
-  margin: 0 0 clamp(108px, 14vw, 182px);
+  padding: 0 0 clamp(62px, 7vw, 94px);
+  margin: 0 0 clamp(72px, 9vw, 116px);
   border-bottom: 1px solid var(--rule);
 }
-.post:nth-child(3n + 2) { padding-bottom: clamp(116px, 13vw, 172px); }
-.post:nth-child(4n) { margin-bottom: clamp(124px, 15vw, 198px); }
+.post:nth-child(3n + 2) { padding-bottom: clamp(72px, 8vw, 106px); }
+.post:nth-child(4n) { margin-bottom: clamp(82px, 10vw, 124px); }
 .post[hidden] { display: none; }
 .post-date {
   margin: 0 0 17px;
-  color: var(--quiet);
-  font: 300 .6rem/1.4 var(--ui);
-  letter-spacing: .065em;
-  text-transform: lowercase;
+  color: rgba(8, 8, 8, .8);
+  font: 300 .69rem/1.4 var(--ui);
+  letter-spacing: .045em;
 }
 .inventory { width: min(100%, 520px); margin: 27px 0 0; }
 .post h1 {
@@ -95,14 +94,14 @@ img { display: block; max-width: 100%; }
 .completion-date {
   display: block;
   margin: 0;
-  color: var(--quiet);
+  color: rgba(8, 8, 8, .78);
   font: 300 .64rem/1.5 var(--ui);
   letter-spacing: .045em;
   text-transform: lowercase;
 }
 .artwork { display: block; width: 100%; background: transparent; }
 .artwork img { width: auto; height: auto; max-width: 100%; max-height: none; margin: 0; object-fit: initial; }
-.inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--quiet); font: 300 .65rem/1.65 var(--ui); }
+.inventory-data { display: grid; justify-items: start; gap: 2px; color: rgba(8, 8, 8, .78); font: 300 .69rem/1.65 var(--ui); }
 .inventory-data span { display: block; }
 .sold { margin-top: 5px; letter-spacing: .09em; text-transform: lowercase; }
 .details { display: inline-block; margin-top: 15px; padding-bottom: 3px; color: var(--black); border-bottom: 1px solid var(--hairline); font-size: .63rem; }
@@ -111,10 +110,10 @@ img { display: block; max-width: 100%; }
   position: sticky;
   top: 24px;
   padding: 18px 17px 3px;
-  color: var(--quiet);
+  color: rgba(8, 8, 8, .78);
   border: 1px solid var(--hairline);
-  font-size: .63rem;
-  line-height: 1.65;
+  font-size: .7rem;
+  line-height: 1.7;
   letter-spacing: .025em;
 }
 .sidebar section { padding: 0 0 17px; margin: 0 0 18px; border-bottom: 1px solid var(--hairline); }
@@ -130,7 +129,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: .025em;
 }
 .archive-copy cite { display: block; margin-top: 7px; color: var(--quiet); font: normal 300 .55rem/1 var(--ui); letter-spacing: .1em; }
-.eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .57rem/1 var(--ui); letter-spacing: .11em; text-transform: uppercase; }
+.eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .64rem/1 var(--ui); letter-spacing: .08em; text-transform: none; }
 .search { display: flex; border-bottom: 1px solid var(--hairline); }
 .search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
 .search input::placeholder { color: var(--quiet); }
@@ -166,7 +165,7 @@ img { display: block; max-width: 100%; }
   .site-header { margin-bottom: 52px; }
   .wordmark { white-space: normal; }
   .identity { gap: 22px; }
-  .title-mark { width: 92px; }
+  .title-mark { width: 115px; }
   .inventory { margin-top: 21px; }
   .sidebar { grid-template-columns: 1fr; }
 }
@@ -244,7 +243,8 @@ def display_date(value: str) -> str:
     year, month, day = (int(part) for part in match.groups())
     names = ("", "January", "February", "March", "April", "May", "June",
              "July", "August", "September", "October", "November", "December")
-    return f"{day} {names[month]} {year}"
+    weekday = calendar_date(year, month, day).strftime("%A")
+    return f"{weekday}, {day} {names[month]} {year}"
 
 
 def publication_date(path: Path, frontmatter: dict[str, str]) -> str:
@@ -367,9 +367,9 @@ def post_html(post: Post, anchor: str) -> str:
     )
     sold = '<span class="sold">sold</span>' if post.sold else ""
     return f"""<article class="post"{anchor} data-search="{html.escape(search_terms)}">
-  <p class="post-date">posted {html.escape(post.post_date)}</p>
+  <p class="post-date">{html.escape(post.post_date)}</p>
   <a class="artwork" href="{html.escape(post.url)}" aria-label="View {title}"><img src="{html.escape(post.image)}" alt="{title}" loading="lazy"></a>
-  <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="completion-date">completed {html.escape(post.completion_date)}</span>{sold}<a class="details" href="{html.escape(post.url)}">view work&nbsp; ⟶</a></div></div>
+  <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="completion-date">{html.escape(post.completion_date)}</span>{sold}<a class="details" href="{html.escape(post.url)}">view work&nbsp; ⟶</a></div></div>
 </article>"""
 
 
@@ -412,15 +412,14 @@ def main() -> None:
 <link rel="stylesheet" href="inastri-home.css"></head><body>
 <header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
-<section class="archive-copy"><p class="eyebrow">side a / archive</p><p>I NASTRI is the personal homepage of Richmond Jeffrey. It is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by category or more specifically by tags using the links below in the sidebar menu, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please reach out to me at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>. For my official portfolio site, which includes featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
-<section><p class="eyebrow">a1 / contents</p><ul class="browse-list"><li><a href="#work">recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
-<section><label class="eyebrow" for="archive-search">a2 / finding aid</label><div class="search"><input id="archive-search" type="search" placeholder="title, medium, place…"><button type="button" aria-label="Search">⟶</button></div></section>
-<section><p class="eyebrow">side b / tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
-<section><p class="eyebrow">b1 / years</p><div class="years">{year_links}</div></section>
-<section><p class="eyebrow">b2 / follow</p><a href="index.xml">rss feed</a></section></aside>
+<section class="archive-copy"><p>I NASTRI is the personal homepage of Richmond Jeffrey. It is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by category or more specifically by tags using the links below in the sidebar menu, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please reach out to me at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>. For my official portfolio site, which includes featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
+<section><p class="eyebrow">categories</p><ul class="browse-list"><li><a href="#work" data-reset>recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
+<section><p class="eyebrow">tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
+<section><p class="eyebrow">archive</p><div class="years">{year_links}</div></section>
+<section><p class="eyebrow">Links</p><a href="index.xml">rss feed</a></section></aside>
 <section class="feed" aria-label="Recent work">{''.join(rendered)}</section></main>
 <footer class="site-footer"><span>© 2026 Richmond Jeffrey</span></footer>
-<script>const q=document.querySelector('#archive-search');const posts=[...document.querySelectorAll('.post')];const applyFilter=()=>{{const v=q.value.trim().toLowerCase();posts.forEach(p=>p.hidden=v&&!((p.dataset.search+' '+p.textContent).toLowerCase().includes(v)));}};q.addEventListener('input',applyFilter);document.querySelectorAll('[data-year],[data-tag]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();q.value=a.dataset.year||a.dataset.tag;applyFilter();}}));const targetArea=520000;const artworkImages=[...document.querySelectorAll('.artwork img')];const sizeArtwork=img=>{{if(!img.naturalWidth)return;const ratio=img.naturalWidth/img.naturalHeight;const available=img.closest('.artwork').clientWidth;img.style.width=Math.round(Math.min(available,Math.sqrt(targetArea*ratio)))+'px';img.style.height='auto';}};artworkImages.forEach(img=>{{if(img.complete)sizeArtwork(img);else img.addEventListener('load',()=>sizeArtwork(img),{{once:true}});}});window.addEventListener('resize',()=>artworkImages.forEach(sizeArtwork));</script>
+<script>const posts=[...document.querySelectorAll('.post')];const applyFilter=v=>posts.forEach(p=>p.hidden=v&&!((p.dataset.search+' '+p.textContent).toLowerCase().includes(v)));document.querySelectorAll('[data-year],[data-tag]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();applyFilter((a.dataset.year||a.dataset.tag).toLowerCase());}}));document.querySelector('[data-reset]').addEventListener('click',()=>applyFilter(''));const targetArea=292500;const artworkImages=[...document.querySelectorAll('.artwork img')];const sizeArtwork=img=>{{if(!img.naturalWidth)return;const ratio=img.naturalWidth/img.naturalHeight;const available=img.closest('.artwork').clientWidth*.75;img.style.width=Math.round(Math.min(available,Math.sqrt(targetArea*ratio)))+'px';img.style.height='auto';}};artworkImages.forEach(img=>{{if(img.complete)sizeArtwork(img);else img.addEventListener('load',()=>sizeArtwork(img),{{once:true}});}});window.addEventListener('resize',()=>artworkImages.forEach(sizeArtwork));</script>
 </body></html>"""
     PUBLIC.mkdir(parents=True, exist_ok=True)
     (PUBLIC / "index.html").write_text(page, encoding="utf-8")
