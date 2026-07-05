@@ -59,6 +59,9 @@ body {
 .sidebar.left .page-title {
   grid-area: title;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 58px);
   color: #080808;
   font: 400 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--inastri-display);
   letter-spacing: .165em;
@@ -67,12 +70,12 @@ body {
 }
 
 .sidebar.left .page-title::after {
-  content: "painting, drawing, and writing by Richmond Jeffrey";
+  content: "";
   display: block;
-  margin-top: .8rem;
-  color: rgba(8, 8, 8, .62);
-  font: 300 .64rem/1.4 var(--inastri-ui);
-  letter-spacing: .08em;
+  width: clamp(92px, 12vw, 154px);
+  aspect-ratio: 4 / 3;
+  flex: 0 0 auto;
+  background: url("/i-nastri/assets/site-logo.gif") center / contain no-repeat;
 }
 
 .sidebar.left .search,
@@ -186,5 +189,10 @@ footer {
 
   .sidebar.left .page-title {
     white-space: normal;
+    gap: 22px;
+  }
+
+  .sidebar.left .page-title::after {
+    width: 92px;
   }
 }
