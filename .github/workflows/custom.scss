@@ -1,9 +1,9 @@
 @use "./variables.scss" as *;
 
 :root {
-  --light: #fdfff5;
-  --lightgray: rgba(8, 8, 8, .085);
-  --gray: rgba(8, 8, 8, .62);
+  --light: #f7f7f7;
+  --lightgray: rgba(8, 8, 8, .14);
+  --gray: rgba(8, 8, 8, .74);
   --darkgray: #080808;
   --dark: #080808;
   --secondary: #080808;
@@ -16,7 +16,7 @@
 html,
 body {
   color: #080808;
-  background-color: #fdfff5;
+  background-color: #f7f7f7;
 }
 
 body {
@@ -53,7 +53,7 @@ body {
   grid-template-areas: "title";
   border-top: 1px solid #080808;
   border-right: 0;
-  border-bottom: 1px solid rgba(8, 8, 8, .16);
+  border-bottom: 1px solid rgba(8, 8, 8, .28);
 }
 
 .sidebar.left .page-title {
@@ -72,7 +72,7 @@ body {
 .sidebar.left .page-title::after {
   content: "";
   display: block;
-  width: clamp(92px, 12vw, 154px);
+  width: clamp(115px, 15vw, 193px);
   aspect-ratio: 4 / 3;
   flex: 0 0 auto;
   background: url("/i-nastri/assets/site-logo.gif") center / contain no-repeat;
@@ -94,7 +94,7 @@ body {
 .page-header {
   margin-top: 0 !important;
   padding-bottom: 26px;
-  border-bottom: 1px solid rgba(8, 8, 8, .085);
+  border-bottom: 1px solid rgba(8, 8, 8, .14);
 }
 
 .article-title,
@@ -120,8 +120,8 @@ article > h1:first-child {
 .content-meta,
 .note-properties,
 footer {
-  color: rgba(8, 8, 8, .62);
-  font: 300 .64rem/1.55 var(--inastri-ui);
+  color: rgba(8, 8, 8, .74);
+  font: 300 .68rem/1.55 var(--inastri-ui);
   letter-spacing: .035em;
 }
 
@@ -134,8 +134,8 @@ article img {
   display: block;
   width: auto;
   height: auto;
-  max-width: 100%;
-  max-height: 86vh;
+  max-width: 75%;
+  max-height: 64.5vh;
   margin: 39px auto 23px;
   border: 0;
   border-radius: 0;
@@ -169,7 +169,7 @@ a.internal:hover {
 footer {
   margin-top: 7rem;
   padding-top: 1.2rem;
-  border-top: 1px solid rgba(8, 8, 8, .085);
+  border-top: 1px solid rgba(8, 8, 8, .14);
   text-transform: lowercase;
 }
 
@@ -193,6 +193,6 @@ footer {
   }
 
   .sidebar.left .page-title::after {
-    width: 92px;
+    width: 115px;
   }
 }
