@@ -43,6 +43,15 @@ body {
 a { color: inherit; text-decoration: none; }
 a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
 img { display: block; max-width: 100%; }
+img,
+img:hover,
+a:hover img {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  mix-blend-mode: normal !important;
+  transition: none !important;
+}
 .site-header {
   width: min(1120px, calc(100% - 128px));
   margin: 42px auto 68px;
@@ -99,6 +108,7 @@ img { display: block; max-width: 100%; }
   text-transform: lowercase;
 }
 .artwork { display: block; width: 100%; background: transparent; }
+.artwork:hover { opacity: 1 !important; text-decoration: none !important; }
 .artwork img { width: auto; height: auto; max-width: 100%; max-height: none; margin: 0; object-fit: initial; }
 .inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--black); font: 300 .69rem/1.65 var(--ui); }
 .inventory-data span { display: block; }
