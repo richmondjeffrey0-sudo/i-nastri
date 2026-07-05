@@ -96,7 +96,7 @@ a:hover img {
 .inventory { width: min(100%, 520px); margin: 27px 0 0; }
 .post h1 {
   margin: 0 0 13px;
-  font: 400 clamp(1.32rem, 2vw, 1.72rem)/1.15 var(--display);
+  font: 400 clamp(1.06rem, 1.6vw, 1.38rem)/1.15 var(--display);
   letter-spacing: .075em;
 }
 .completion-date {
