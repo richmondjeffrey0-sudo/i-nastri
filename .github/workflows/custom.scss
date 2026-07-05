@@ -51,9 +51,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas: "title";
-  border-top: 1px solid #080808;
   border-right: 0;
-  border-bottom: 1px solid rgba(8, 8, 8, .28);
 }
 
 .sidebar.left .page-title {
@@ -63,7 +61,7 @@ body {
   align-items: center;
   gap: clamp(24px, 4vw, 58px);
   color: #080808;
-  font: 400 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--inastri-display);
+  font: 700 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--inastri-display);
   letter-spacing: .165em;
   text-transform: none;
   white-space: nowrap;
