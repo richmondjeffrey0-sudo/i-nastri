@@ -65,12 +65,12 @@ a:hover img {
   letter-spacing: .165em;
   white-space: nowrap;
 }
-.title-mark { display: block; width: clamp(115px, 15vw, 193px); height: auto; flex: 0 0 auto; }
+.title-mark { display: block; width: clamp(138px, 18vw, 232px); height: auto; flex: 0 0 auto; }
 .shell {
   width: min(1120px, calc(100% - 128px));
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 800px) 264px;
+  grid-template-columns: minmax(0, 800px) 290px;
   grid-template-areas: "feed sidebar";
   gap: clamp(32px, 4vw, 56px);
   align-items: start;
@@ -175,7 +175,7 @@ a:hover img {
   .site-header { margin-bottom: 52px; }
   .wordmark { white-space: normal; }
   .identity { gap: 22px; }
-  .title-mark { width: 115px; }
+  .title-mark { width: 138px; }
   .inventory { margin-top: 21px; }
   .sidebar { grid-template-columns: 1fr; }
 }
@@ -422,7 +422,7 @@ def main() -> None:
 <link rel="stylesheet" href="inastri-home.css"></head><body>
 <header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
-<section class="archive-copy"><p>I NASTRI is the personal homepage of Richmond Jeffrey. It is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by category or more specifically by tags using the links below in the sidebar menu, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please reach out to me at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>. For my official portfolio site, which includes featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
+<section class="archive-copy"><p>I NASTRI is the personal website of Richmond Jeffrey. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly, by category, or more specifically, by tags, using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>.</p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
 <section><p class="eyebrow">Categories</p><ul class="browse-list"><li><a href="#work" data-reset>recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
 <section><p class="eyebrow">Tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
 <section><p class="eyebrow">Archive</p><div class="years">{year_links}</div></section>
