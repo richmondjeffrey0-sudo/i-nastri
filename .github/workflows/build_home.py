@@ -110,6 +110,7 @@ a:hover img {
 .artwork { display: block; width: 100%; background: transparent; }
 .artwork:hover { opacity: 1 !important; text-decoration: none !important; }
 .artwork img { width: auto; height: auto; max-width: 100%; max-height: none; margin: 0; object-fit: initial; }
+.post.drawing .artwork img { border: 1px solid var(--black); }
 .inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--black); font: 300 .69rem/1.65 var(--ui); }
 .inventory-data span { display: block; }
 .sold { margin-top: 5px; letter-spacing: .09em; text-transform: lowercase; }
@@ -379,7 +380,7 @@ def post_html(post: Post, anchor: str) -> str:
         for item in post.place.split(" · ") if item
     )
     sold = '<span class="sold">sold</span>' if post.sold else ""
-    return f"""<article class="post"{anchor} data-search="{html.escape(search_terms)}">
+    return f"""<article class="post {html.escape(post.category)}"{anchor} data-search="{html.escape(search_terms)}">
   <p class="post-date">{html.escape(post.post_date)}</p>
   <a class="artwork" href="{html.escape(post.url)}" aria-label="View {title}"><img src="{html.escape(post.image)}" alt="{title}" loading="lazy"></a>
   <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="completion-date">{html.escape(post.completion_date)}</span>{sold}<a class="details" href="{html.escape(post.url)}">view work&nbsp; ⟶</a></div></div>
