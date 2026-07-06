@@ -151,6 +151,10 @@ article a:hover img {
   transition: none !important;
 }
 
+body[data-slug^="drawings/"] article img {
+  border: 1px solid #080808;
+}
+
 article a:has(img):hover {
   opacity: 1 !important;
   text-decoration: none !important;
