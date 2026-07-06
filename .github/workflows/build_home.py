@@ -129,6 +129,9 @@ a:hover img {
 .sidebar section:last-child { border-bottom: 0; }
 .sidebar p { margin-top: 0; }
 .archive-copy { font: 400 .78rem/1.65 var(--humanist); }
+.archive-copy > p { text-align: justify; text-justify: inter-word; hyphens: none; }
+.archive-copy strong { font-weight: 600; }
+.nowrap { white-space: nowrap; }
 .archive-copy a { color: var(--black); border-bottom: 1px solid var(--hairline); }
 .archive-copy blockquote {
   margin: 15px 0 0;
@@ -422,7 +425,7 @@ def main() -> None:
 <link rel="stylesheet" href="inastri-home.css"></head><body>
 <header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
-<section class="archive-copy"><p>I NASTRI is the personal website of Richmond Jeffrey. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly, by category, or more specifically, by tags, using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>.</p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
+<section class="archive-copy"><p><strong>I NASTRI</strong> is the personal website of <span class="nowrap">Richmond Jeffrey</span>. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly, by category, or more specifically, by tags, using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>.</p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
 <section><p class="eyebrow">Categories</p><ul class="browse-list"><li><a href="#work" data-reset>recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
 <section><p class="eyebrow">Tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
 <section><p class="eyebrow">Archive</p><div class="years">{year_links}</div></section>
