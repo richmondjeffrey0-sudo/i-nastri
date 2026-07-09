@@ -6,7 +6,7 @@ configuration:
   enablePopovers: false
   analytics: null
   locale: en-US
-  baseUrl: richmondjeffrey0-sudo.github.io/i-nastri
+  baseUrl: inastri.net
   ignorePatterns:
     - private
     - templates
@@ -194,4 +194,3 @@ layout:
         right: []
     canvas: {}
     bases: {}
-
