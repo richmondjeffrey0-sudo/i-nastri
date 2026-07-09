@@ -49,7 +49,7 @@ jobs:
         run: |
           python3 .github/workflows/build_home.py
           test -f public/inastri-home.css
-          grep -q 'class="post"' public/index.html
+          grep -q 'class="post ' public/index.html
           rm -rf _site
           mkdir _site
           cp -R public/. _site/
