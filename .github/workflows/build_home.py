@@ -200,6 +200,7 @@ class Post:
     category: str
     completion_date: str
     post_date: str
+    post_sort_date: str
     year: int
     month: int
     image: str
@@ -261,10 +262,12 @@ def display_date(value: str) -> str:
     return f"{weekday}, {day} {names[month]} {year}"
 
 
-def publication_date(path: Path, frontmatter: dict[str, str]) -> str:
+def publication_sort_date(path: Path, frontmatter: dict[str, str]) -> str:
     explicit = frontmatter.get("published") or frontmatter.get("publishdate")
     if explicit:
-        return display_date(explicit)
+        match = re.match(r"^(\d{4}-\d{2}-\d{2})", explicit)
+        if match:
+            return match.group(1)
     try:
         relative = path.relative_to(ROOT)
         result = subprocess.run(
@@ -273,10 +276,14 @@ def publication_date(path: Path, frontmatter: dict[str, str]) -> str:
         )
         dates = [line.strip() for line in result.stdout.splitlines() if line.strip()]
         if dates:
-            return display_date(dates[-1])
+            return dates[-1]
     except (OSError, ValueError):
         pass
-    return display_date(calendar_date.today().isoformat())
+    return calendar_date.today().isoformat()
+
+
+def publication_date(path: Path, frontmatter: dict[str, str]) -> str:
+    return display_date(publication_sort_date(path, frontmatter))
 
 
 def normalize_notes() -> None:
@@ -364,7 +371,8 @@ def parse_post(path: Path) -> Post | None:
         tags = (category, *tags)
     folder = path.parent.name.lower()
     url = f"{folder}/{slug_part(path.stem)}"
-    return Post(title, category, completion_date, publication_date(path, frontmatter), year, month,
+    post_sort_date = publication_sort_date(path, frontmatter)
+    return Post(title, category, completion_date, display_date(post_sort_date), post_sort_date, year, month,
                 image, url, facts, place, sold, tags)
 
 
@@ -396,8 +404,7 @@ def main() -> None:
         print("Prepared I NASTRI content metadata")
         return
     posts = [post for path in CONTENT.rglob("*.md") if (post := parse_post(path))]
-    featured = {"Portrait of Carolina": 4, "Satyr and Bather": 3, "Slimness of Comforts": 2, "Forsythia": 1}
-    posts.sort(key=lambda p: (featured.get(p.title, 0), p.year, p.month, p.title.lower()), reverse=True)
+    posts.sort(key=lambda p: (p.post_sort_date, p.year, p.month, p.title.lower()), reverse=True)
     counts = Counter(post.category for post in posts)
     tag_counts = Counter(tag for post in posts for tag in post.tags)
     years = sorted({post.year for post in posts if post.year}, reverse=True)
