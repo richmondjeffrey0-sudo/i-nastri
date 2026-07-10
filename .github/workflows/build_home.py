@@ -131,12 +131,11 @@ a:hover img {
 .sidebar section:last-child { border-bottom: 0; }
 .sidebar p { margin-top: 0; }
 .archive-copy { font: 400 .78rem/1.65 var(--humanist); }
-.sidebar section.archive-copy { border-bottom: 0; }
 .archive-copy > p { text-align: left; hyphens: none; }
 .archive-copy strong { font-weight: 600; }
 .nowrap { white-space: nowrap; }
 .archive-copy a { color: var(--black); border-bottom: 1px solid var(--hairline); }
-.archive-copy .email-line { display: block; margin-top: 4px; font-family: var(--ui); font-size: .72rem; }
+.archive-copy .email-line { display: block; margin-top: 4px; font-family: var(--ui); font-size: .72rem; border-bottom: 0; }
 .eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .88rem/1 var(--display); letter-spacing: .055em; text-transform: none; }
 .search { display: flex; border-bottom: 1px solid var(--hairline); }
 .search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
