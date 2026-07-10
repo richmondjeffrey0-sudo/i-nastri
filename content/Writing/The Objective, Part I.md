@@ -3,8 +3,8 @@ type: writing
 tags:
   - writing
   - essay
-title: "The Objective, Part I"
 ---
+
 
 This is a placeholder essay (more like an extended note, or a brief, really) that I will probably expand upon at another time.
 
@@ -17,3 +17,4 @@ Part 2: The Hand and The Instrument
 Part 3: The Word and The Poem
 
 Part 4: The Subject and The Object
+
