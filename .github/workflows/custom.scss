@@ -130,10 +130,10 @@ article {
 
 article img {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
-  max-width: 75%;
-  max-height: 64.5vh;
+  max-width: 100%;
+  max-height: none;
   margin: 39px auto 23px;
   border: 0;
   border-radius: 0;
