@@ -70,7 +70,7 @@ a:hover img {
   width: min(1120px, calc(100% - 128px));
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 800px) 290px;
+  grid-template-columns: minmax(0, 600px) 363px;
   grid-template-areas: "feed sidebar";
   gap: clamp(32px, 4vw, 56px);
   align-items: start;
@@ -131,10 +131,11 @@ a:hover img {
 .sidebar section:last-child { border-bottom: 0; }
 .sidebar p { margin-top: 0; }
 .archive-copy { font: 400 .78rem/1.65 var(--humanist); }
-.archive-copy > p { text-align: justify; text-justify: inter-word; hyphens: none; }
+.archive-copy > p { text-align: left; hyphens: none; }
 .archive-copy strong { font-weight: 600; }
 .nowrap { white-space: nowrap; }
 .archive-copy a { color: var(--black); border-bottom: 1px solid var(--hairline); }
+.archive-copy .email-line { display: block; margin-top: 4px; font-family: var(--ui); font-size: .72rem; }
 .eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .88rem/1 var(--display); letter-spacing: .055em; text-transform: none; }
 .search { display: flex; border-bottom: 1px solid var(--hairline); }
 .search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
@@ -425,7 +426,7 @@ def main() -> None:
 <link rel="stylesheet" href="inastri-home.css"></head><body>
 <header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
-<section class="archive-copy"><p><strong>I NASTRI</strong> is the personal website of <span class="nowrap">Richmond Jeffrey</span>. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by tags using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>.</p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p></section>
+<section class="archive-copy"><p><strong>I NASTRI</strong> is the personal website of <span class="nowrap">Richmond Jeffrey</span>. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by tags using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at:<a class="email-line" href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a></p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p></section>
 <section><p class="eyebrow">Tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
 <section><p class="eyebrow">Archive</p><div class="years">{year_links}</div></section>
 <section><p class="eyebrow">Links</p><a href="index.xml">rss feed</a></section></aside>
