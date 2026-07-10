@@ -114,11 +114,12 @@ a:hover img {
 .inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--black); font: 300 .69rem/1.65 var(--ui); }
 .inventory-data span { display: block; }
 .sold { margin-top: 5px; letter-spacing: .09em; text-transform: lowercase; }
-.details { display: inline-block; margin-top: 15px; padding-bottom: 3px; color: var(--black); border-bottom: 1px solid var(--hairline); font-size: .63rem; }
 .sidebar {
   grid-area: sidebar;
   position: sticky;
   top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
   padding: 18px 17px 3px;
   color: var(--black);
   border: 1px solid var(--hairline);
@@ -134,15 +135,6 @@ a:hover img {
 .archive-copy strong { font-weight: 600; }
 .nowrap { white-space: nowrap; }
 .archive-copy a { color: var(--black); border-bottom: 1px solid var(--hairline); }
-.archive-copy blockquote {
-  margin: 15px 0 0;
-  padding: 13px 0 0;
-  color: var(--black);
-  border-top: 1px solid var(--hairline);
-  font: italic 400 .83rem/1.55 var(--display);
-  letter-spacing: .025em;
-}
-.archive-copy cite { display: block; margin-top: 7px; color: var(--quiet); font: normal 300 .55rem/1 var(--ui); letter-spacing: .1em; }
 .eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .88rem/1 var(--display); letter-spacing: .055em; text-transform: none; }
 .search { display: flex; border-bottom: 1px solid var(--hairline); }
 .search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
@@ -171,7 +163,7 @@ a:hover img {
 @media (max-width: 980px) {
   .site-header { margin-top: 24px; }
   .shell { grid-template-columns: 1fr; grid-template-areas: "sidebar" "feed"; }
-  .sidebar { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; margin-bottom: 68px; }
+  .sidebar { position: static; max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; margin-bottom: 68px; }
   .sidebar section { margin-bottom: 25px; }
 }
 @media (max-width: 620px) {
@@ -391,7 +383,7 @@ def post_html(post: Post, anchor: str) -> str:
     return f"""<article class="post {html.escape(post.category)}"{anchor} data-search="{html.escape(search_terms)}">
   <p class="post-date">{html.escape(post.post_date)}</p>
   <a class="artwork" href="{html.escape(post.url)}" aria-label="View {title}"><img src="{html.escape(post.image)}" alt="{title}" loading="lazy"></a>
-  <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="completion-date">{html.escape(post.completion_date)}</span>{sold}<a class="details" href="{html.escape(post.url)}">view work&nbsp; ⟶</a></div></div>
+  <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="completion-date">{html.escape(post.completion_date)}</span>{sold}</div></div>
 </article>"""
 
 
@@ -433,8 +425,7 @@ def main() -> None:
 <link rel="stylesheet" href="inastri-home.css"></head><body>
 <header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
-<section class="archive-copy"><p><strong>I NASTRI</strong> is the personal website of <span class="nowrap">Richmond Jeffrey</span>. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly, by category, or more specifically, by tags, using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>.</p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p><blockquote>“Only when the painter knows no longer what he is doing does he do good things.”<cite>E.D.</cite></blockquote></section>
-<section><p class="eyebrow">Categories</p><ul class="browse-list"><li><a href="#work" data-reset>recent work</a><span>{len(posts)}</span></li><li><a href="paintings/">paintings</a><span>{counts['painting']}</span></li><li><a href="drawings/">drawings</a><span>{counts['drawing']}</span></li><li><a href="writing/">writing</a><span>1</span></li></ul></section>
+<section class="archive-copy"><p><strong>I NASTRI</strong> is the personal website of <span class="nowrap">Richmond Jeffrey</span>. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by tags using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at <a href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a>.</p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p></section>
 <section><p class="eyebrow">Tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
 <section><p class="eyebrow">Archive</p><div class="years">{year_links}</div></section>
 <section><p class="eyebrow">Links</p><a href="index.xml">rss feed</a></section></aside>
