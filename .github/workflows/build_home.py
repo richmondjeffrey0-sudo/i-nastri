@@ -203,6 +203,7 @@ class Post:
     place: str
     sold: bool
     tags: tuple[str, ...]
+    image_size: str
 
 
 def slug_part(value: str) -> str:
@@ -278,6 +279,19 @@ def publication_sort_date(path: Path, frontmatter: dict[str, str]) -> str:
 
 def publication_date(path: Path, frontmatter: dict[str, str]) -> str:
     return display_date(publication_sort_date(path, frontmatter))
+
+
+def image_size(frontmatter: dict[str, str]) -> str:
+    value = (
+        frontmatter.get("image_size")
+        or frontmatter.get("image-size")
+        or frontmatter.get("imagesize")
+        or "auto"
+    )
+    normalized = value.strip().lower().rstrip("%")
+    aliases = {"large": "full", "100": "full", "1": "full", "half": "50", "quarter": "25"}
+    normalized = aliases.get(normalized, normalized)
+    return normalized if normalized in {"auto", "full", "75", "50", "25"} else "auto"
 
 
 def normalize_notes() -> None:
@@ -367,7 +381,7 @@ def parse_post(path: Path) -> Post | None:
     url = f"{folder}/{slug_part(path.stem)}"
     post_sort_date = publication_sort_date(path, frontmatter)
     return Post(title, category, completion_date, display_date(post_sort_date), post_sort_date, year, month,
-                image, url, facts, place, sold, tags)
+                image, url, facts, place, sold, tags, image_size(frontmatter))
 
 
 def post_html(post: Post, anchor: str) -> str:
@@ -382,7 +396,7 @@ def post_html(post: Post, anchor: str) -> str:
         for item in post.place.split(" · ") if item
     )
     sold = '<span class="sold">sold</span>' if post.sold else ""
-    return f"""<article class="post {html.escape(post.category)}"{anchor} data-search="{html.escape(search_terms)}">
+    return f"""<article class="post {html.escape(post.category)}"{anchor} data-search="{html.escape(search_terms)}" data-image-size="{html.escape(post.image_size)}">
   <p class="post-date">{html.escape(post.post_date)}</p>
   <a class="artwork" href="{html.escape(post.url)}" aria-label="View {title}"><img src="{html.escape(post.image)}" alt="{title}" loading="lazy"></a>
   <div class="inventory"><h1><a href="{html.escape(post.url)}">{title}</a></h1><div class="inventory-data">{facts}{place}<span class="completion-date">{html.escape(post.completion_date)}</span>{sold}</div></div>
@@ -433,7 +447,7 @@ def main() -> None:
 <section><p class="eyebrow">Links</p><a href="index.xml">rss feed</a></section></aside>
 <section class="feed" aria-label="Recent work">{''.join(rendered)}</section></main>
 <footer class="site-footer"><span>© 2026 Richmond Jeffrey</span></footer>
-<script>const posts=[...document.querySelectorAll('.post')];const applyFilter=v=>posts.forEach(p=>p.hidden=v&&!((p.dataset.search+' '+p.textContent).toLowerCase().includes(v)));document.querySelectorAll('[data-year],[data-tag]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();applyFilter((a.dataset.year||a.dataset.tag).toLowerCase());}}));document.querySelector('[data-reset]').addEventListener('click',()=>applyFilter(''));const targetArea=292500;const artworkImages=[...document.querySelectorAll('.artwork img')];const sizeArtwork=img=>{{if(!img.naturalWidth)return;const ratio=img.naturalWidth/img.naturalHeight;const available=img.closest('.artwork').clientWidth*.75;img.style.width=Math.round(Math.min(available,Math.sqrt(targetArea*ratio)))+'px';img.style.height='auto';}};artworkImages.forEach(img=>{{if(img.complete)sizeArtwork(img);else img.addEventListener('load',()=>sizeArtwork(img),{{once:true}});}});window.addEventListener('resize',()=>artworkImages.forEach(sizeArtwork));</script>
+<script>const posts=[...document.querySelectorAll('.post')];const applyFilter=v=>posts.forEach(p=>p.hidden=v&&!((p.dataset.search+' '+p.textContent).toLowerCase().includes(v)));document.querySelectorAll('[data-year],[data-tag]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();applyFilter((a.dataset.year||a.dataset.tag).toLowerCase());}}));document.querySelector('[data-reset]')?.addEventListener('click',()=>applyFilter(''));const artworkImages=[...document.querySelectorAll('.artwork img')];const pct={{full:1,75:.75,50:.5,25:.25}};const sizeArtwork=img=>{{if(!img.naturalWidth)return;const post=img.closest('.post');const setting=post?.dataset.imageSize||'auto';const container=img.closest('.artwork');const max=container.clientWidth;if(pct[setting]){{img.style.width=Math.round(max*pct[setting])+'px';img.style.height='auto';return;}}const ratio=img.naturalWidth/img.naturalHeight;let scale=.78;if(ratio<.8)scale=.52;else if(ratio<1)scale=.62;else if(ratio<1.2)scale=.7;img.style.width=Math.round(max*scale)+'px';img.style.height='auto';}};artworkImages.forEach(img=>{{if(img.complete)sizeArtwork(img);else img.addEventListener('load',()=>sizeArtwork(img),{{once:true}});}});window.addEventListener('resize',()=>artworkImages.forEach(sizeArtwork));</script>
 </body></html>"""
     PUBLIC.mkdir(parents=True, exist_ok=True)
     (PUBLIC / "index.html").write_text(page, encoding="utf-8")
