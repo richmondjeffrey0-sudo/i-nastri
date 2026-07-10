@@ -7,7 +7,7 @@ title: "Portrait of Carolina"
 date: 2026-06-01
 ---
 
-![[../../Assets/Pasted image 20260706210204.png]]
+![[Assets/Pasted image 20260706210204.png]]
 
 
 June, 2026
