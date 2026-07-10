@@ -131,6 +131,7 @@ a:hover img {
 .sidebar section:last-child { border-bottom: 0; }
 .sidebar p { margin-top: 0; }
 .archive-copy { font: 400 .78rem/1.65 var(--humanist); }
+.sidebar section.archive-copy { border-bottom: 0; }
 .archive-copy > p { text-align: left; hyphens: none; }
 .archive-copy strong { font-weight: 600; }
 .nowrap { white-space: nowrap; }
