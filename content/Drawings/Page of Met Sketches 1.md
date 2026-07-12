@@ -5,6 +5,8 @@ tags:
   - sketch
   - sculpture
   - metropolitan_museum
+title: "Page of Met Sketches 1"
+date: 2026-05-01
 ---
 
 ![[Assets/IMG_3611.jpg]]

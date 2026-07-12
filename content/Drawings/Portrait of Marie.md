@@ -3,9 +3,12 @@ type: drawing
 tags:
   - drawing
   - portrait
+image_size: full
+title: "Portrait of Marie"
+date: 2026-06-01
 ---
 
-![[assets/IMG_3619.jpg]]
+![[Assets/IMG_3619.jpg]]
 June, 2026
 Paris, France
 Graphite pencil.
