@@ -51,8 +51,8 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas: "title";
-  color: #f7f7f7;
-  background: #080808;
+  color: #f7f7f7 !important;
+  background: #080808 !important;
   border-right: 0;
 }
 
@@ -62,7 +62,7 @@ body {
   display: flex;
   align-items: center;
   gap: clamp(24px, 4vw, 58px);
-  color: #f7f7f7;
+  color: #f7f7f7 !important;
   font: 700 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--inastri-display);
   letter-spacing: .165em;
   text-transform: none;

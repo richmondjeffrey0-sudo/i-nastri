@@ -56,8 +56,8 @@ a:hover img {
   width: 100%;
   margin: 0 0 68px;
   padding: 25px 0 27px;
-  color: var(--milk);
-  background: var(--black);
+  color: var(--milk) !important;
+  background: var(--black) !important;
 }
 .identity {
   width: min(1019px, calc(100% - 128px));
@@ -66,6 +66,7 @@ a:hover img {
   align-items: center;
 }
 .wordmark {
+  color: var(--milk) !important;
   font: 700 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--display);
   letter-spacing: .165em;
   white-space: nowrap;
@@ -441,7 +442,7 @@ def main() -> None:
     page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I NASTRI — Richmond Jeffrey</title><meta name="description" content="Drawings, paintings, and notes by Richmond Jeffrey.">
-<link rel="stylesheet" href="inastri-home.css"></head><body>
+<link rel="stylesheet" href="inastri-home.css?v=banner-sidebar-20260719"></head><body>
 <header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
 <img class="sidebar-mark" src="assets/site-logo.gif" alt="Circular artwork detail">
