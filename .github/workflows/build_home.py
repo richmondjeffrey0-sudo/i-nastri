@@ -53,21 +53,25 @@ a:hover img {
   transition: none !important;
 }
 .site-header {
-  width: min(1120px, calc(100% - 128px));
-  margin: 42px auto 68px;
-  padding: 19px 0 18px;
+  width: 100%;
+  margin: 0 0 68px;
+  padding: 25px 0 27px;
+  color: var(--milk);
+  background: var(--black);
+}
+.identity {
+  width: min(1019px, calc(100% - 128px));
+  margin: 0 auto;
   display: flex;
   align-items: center;
 }
-.identity { display: flex; align-items: center; gap: clamp(24px, 4vw, 58px); }
 .wordmark {
   font: 700 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--display);
   letter-spacing: .165em;
   white-space: nowrap;
 }
-.title-mark { display: block; width: clamp(138px, 18vw, 232px); height: auto; flex: 0 0 auto; }
 .shell {
-  width: min(1120px, calc(100% - 128px));
+  width: min(1019px, calc(100% - 128px));
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 600px) 363px;
@@ -127,6 +131,7 @@ a:hover img {
   line-height: 1.7;
   letter-spacing: .025em;
 }
+.sidebar-mark { width: min(100%, 290px); margin: 0 auto 20px; }
 .sidebar section { padding: 0 0 17px; margin: 0 0 18px; border-bottom: 1px solid var(--hairline); }
 .sidebar section:last-child { border-bottom: 0; }
 .sidebar p { margin-top: 0; }
@@ -151,7 +156,7 @@ a:hover img {
 .tag-cloud a { font-family: var(--display); font-size: calc(.67rem + (var(--weight) * .09rem)); line-height: 1.35; }
 .tag-cloud small { margin-left: 2px; color: var(--quiet); font-size: .52rem; }
 .site-footer {
-  width: min(1120px, calc(100% - 128px));
+  width: min(1019px, calc(100% - 128px));
   margin: 8px auto 38px;
   padding-top: 20px;
   display: flex;
@@ -162,17 +167,16 @@ a:hover img {
   text-transform: lowercase;
 }
 @media (max-width: 980px) {
-  .site-header { margin-top: 24px; }
+  .site-header { margin-top: 0; }
   .shell { grid-template-columns: 1fr; grid-template-areas: "sidebar" "feed"; }
   .sidebar { position: static; max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 34px; margin-bottom: 68px; }
   .sidebar section { margin-bottom: 25px; }
 }
 @media (max-width: 620px) {
   .site-header, .shell, .site-footer { width: min(100% - 30px, 1180px); }
-  .site-header { margin-bottom: 52px; }
+  .site-header { width: 100%; margin-bottom: 52px; }
+  .identity { width: min(100% - 30px, 1180px); }
   .wordmark { white-space: normal; }
-  .identity { gap: 22px; }
-  .title-mark { width: 138px; }
   .inventory { margin-top: 21px; }
   .sidebar { grid-template-columns: 1fr; }
 }
@@ -438,8 +442,9 @@ def main() -> None:
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I NASTRI — Richmond Jeffrey</title><meta name="description" content="Drawings, paintings, and notes by Richmond Jeffrey.">
 <link rel="stylesheet" href="inastri-home.css"></head><body>
-<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo.gif" alt="Circular artwork detail"></a></header>
+<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
+<img class="sidebar-mark" src="assets/site-logo.gif" alt="Circular artwork detail">
 <section class="archive-copy"><p><strong>I NASTRI</strong> is the personal website of <span class="nowrap">Richmond Jeffrey</span>. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by tags using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at:<a class="email-line" href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a></p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p></section>
 <section><p class="eyebrow">Tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
 <section><p class="eyebrow">Archive</p><div class="years">{year_links}</div></section>
