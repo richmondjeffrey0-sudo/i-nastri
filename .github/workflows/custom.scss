@@ -1,26 +1,26 @@
 @use "./variables.scss" as *;
 
 :root {
-  --light: #f7f7f7;
-  --lightgray: #080808;
-  --gray: #080808;
-  --darkgray: #080808;
-  --dark: #080808;
-  --secondary: #080808;
-  --tertiary: #080808;
-  --highlight: #f7f7f7;
+  --light: #080808;
+  --lightgray: #fdfff5;
+  --gray: #fdfff5;
+  --darkgray: #fdfff5;
+  --dark: #fdfff5;
+  --secondary: #fdfff5;
+  --tertiary: #fdfff5;
+  --highlight: #080808;
   --inastri-display: "Gilda Display", "Iowan Old Style", "Baskerville", serif;
   --inastri-ui: "IBM Plex Mono", "Courier New", monospace;
 }
 
 html,
 body {
-  color: #080808;
-  background-color: #f7f7f7;
+  color: #fdfff5;
+  background-color: #080808;
 }
 
 body {
-  background-image: radial-gradient(rgba(8, 8, 8, .025) .45px, transparent .55px);
+  background-image: radial-gradient(rgba(253, 255, 245, .045) .45px, transparent .55px);
   background-size: 4px 4px;
   font: 300 12px/1.72 var(--inastri-ui);
   letter-spacing: .012em;
@@ -51,7 +51,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas: "title";
-  color: #f7f7f7 !important;
+  color: #fdfff5 !important;
   background: #080808 !important;
   border-right: 0;
 }
@@ -62,7 +62,7 @@ body {
   display: flex;
   align-items: center;
   gap: clamp(24px, 4vw, 58px);
-  color: #f7f7f7 !important;
+  color: #fdfff5 !important;
   font: 700 clamp(2rem, 3.65vw, 3.2rem)/.98 var(--inastri-display);
   letter-spacing: .165em;
   text-transform: none;
@@ -70,7 +70,12 @@ body {
 }
 
 .sidebar.left .page-title::after {
-  content: none;
+  content: "";
+  display: block;
+  width: clamp(138px, 18vw, 232px);
+  aspect-ratio: 4 / 3;
+  flex: 0 0 auto;
+  background: url("assets/site-logo3-milk-transparent.png") center / contain no-repeat;
 }
 
 .sidebar.left .search,
@@ -89,14 +94,14 @@ body {
 .page-header {
   margin-top: 0 !important;
   padding-bottom: 26px;
-  border-bottom: 1px solid #080808;
+  border-bottom: 1px solid #fdfff5;
 }
 
 .article-title,
 article h1,
 article h2,
 article h3 {
-  color: #080808;
+  color: #fdfff5;
   font-family: var(--inastri-display);
   font-weight: 400;
 }
@@ -115,13 +120,13 @@ article > h1:first-child {
 .content-meta,
 .note-properties,
 footer {
-  color: #080808;
+  color: #fdfff5;
   font: 300 .68rem/1.55 var(--inastri-ui);
   letter-spacing: .035em;
 }
 
 article {
-  color: #080808;
+  color: #fdfff5;
   font: 300 .73rem/1.78 var(--inastri-ui);
 }
 
@@ -149,7 +154,7 @@ article a:hover img {
 }
 
 body[data-slug^="drawings/"] article img {
-  border: 1px solid #080808;
+  border: 0;
 }
 
 article a:has(img):hover {
@@ -168,11 +173,11 @@ article > p:has(> img) {
 article a,
 a.internal {
   padding: 0;
-  color: #080808;
+  color: #fdfff5;
   background: transparent;
   border-radius: 0;
   text-decoration: none;
-  border-bottom: 1px solid #080808;
+  border-bottom: 1px dotted #fdfff5;
 }
 
 article a:hover,
@@ -185,7 +190,7 @@ a.internal:hover {
 footer {
   margin-top: 7rem;
   padding-top: 1.2rem;
-  border-top: 1px solid #080808;
+  border-top: 1px solid #fdfff5;
   text-transform: lowercase;
 }
 

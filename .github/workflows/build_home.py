@@ -6,6 +6,7 @@ from __future__ import annotations
 import html
 import argparse
 import re
+import shutil
 import subprocess
 from collections import Counter
 from dataclasses import dataclass
@@ -16,26 +17,28 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
+WORKFLOW_DIR = Path(__file__).resolve().parent
 
 
 STYLE = r"""@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=IBM+Plex+Mono:wght@300;400&family=Source+Sans+3:wght@400;600&display=swap');
 :root {
-  --milk: #f7f7f7;
+  --milk: #fdfff5;
   --black: #080808;
-  --quiet: #080808;
-  --rule: #080808;
-  --hairline: #080808;
+  --pink: #f3c3cc;
+  --quiet: #fdfff5;
+  --rule: #fdfff5;
+  --hairline: #fdfff5;
   --display: "Gilda Display", "Iowan Old Style", "Baskerville", serif;
   --ui: "IBM Plex Mono", "Courier New", monospace;
   --humanist: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: var(--milk); }
+html { scroll-behavior: smooth; background: var(--black); }
 body {
   margin: 0;
-  color: var(--black);
-  background-color: var(--milk);
-  background-image: radial-gradient(rgba(8, 8, 8, .025) .45px, transparent .55px);
+  color: var(--milk);
+  background-color: var(--black);
+  background-image: radial-gradient(rgba(253, 255, 245, .045) .45px, transparent .55px);
   background-size: 4px 4px;
   font: 300 12px/1.72 var(--ui);
   letter-spacing: .012em;
@@ -64,6 +67,7 @@ a:hover img {
   margin: 0 auto;
   display: flex;
   align-items: center;
+  gap: clamp(24px, 4vw, 58px);
 }
 .wordmark {
   color: var(--milk) !important;
@@ -71,6 +75,7 @@ a:hover img {
   letter-spacing: .165em;
   white-space: nowrap;
 }
+.title-mark { width: clamp(138px, 18vw, 232px); height: auto; flex: 0 0 auto; }
 .shell {
   width: min(1019px, calc(100% - 128px));
   margin: 0 auto;
@@ -94,7 +99,7 @@ a:hover img {
 .post[hidden] { display: none; }
 .post-date {
   margin: 0 0 17px;
-  color: var(--black);
+  color: var(--milk);
   font: 300 .69rem/1.4 var(--ui);
   letter-spacing: .045em;
 }
@@ -107,7 +112,7 @@ a:hover img {
 .completion-date {
   display: block;
   margin: 0;
-  color: var(--black);
+  color: var(--milk);
   font: 300 .64rem/1.5 var(--ui);
   letter-spacing: .045em;
   text-transform: lowercase;
@@ -115,10 +120,10 @@ a:hover img {
 .artwork { display: block; width: 100%; background: transparent; }
 .artwork:hover { opacity: 1 !important; text-decoration: none !important; }
 .artwork img { width: auto; height: auto; max-width: 100%; max-height: none; margin: 0; object-fit: initial; }
-.post.drawing .artwork img { border: 1px solid var(--black); }
-.inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--black); font: 300 .69rem/1.65 var(--ui); }
+.post.drawing .artwork img { border: 0; }
+.inventory-data { display: grid; justify-items: start; gap: 2px; color: var(--milk); font: 300 .69rem/1.65 var(--ui); }
 .inventory-data span { display: block; }
-.sold { margin-top: 5px; letter-spacing: .09em; text-transform: lowercase; }
+.sold { margin-top: 5px; color: var(--pink); letter-spacing: .09em; text-transform: lowercase; }
 .sidebar {
   grid-area: sidebar;
   position: sticky;
@@ -126,33 +131,33 @@ a:hover img {
   max-height: calc(100vh - 48px);
   overflow-y: auto;
   padding: 18px 17px 3px;
-  color: var(--black);
+  color: var(--milk);
   border: 1px solid var(--hairline);
   font: 400 .76rem/1.65 var(--humanist);
   line-height: 1.7;
   letter-spacing: .025em;
 }
-.sidebar-mark { width: min(100%, 290px); margin: 0 auto 20px; }
-.sidebar section { padding: 0 0 17px; margin: 0 0 18px; border-bottom: 1px solid var(--hairline); }
+.sidebar section { padding: 0 0 17px; margin: 0 0 18px; border-bottom: 1px dotted var(--hairline); }
 .sidebar section:last-child { border-bottom: 0; }
 .sidebar p { margin-top: 0; }
 .archive-copy { font: 400 .78rem/1.65 var(--humanist); }
 .archive-copy > p { text-align: left; hyphens: none; }
 .archive-copy strong { font-weight: 600; }
 .nowrap { white-space: nowrap; }
-.archive-copy a { color: var(--black); border-bottom: 1px solid var(--hairline); }
+.archive-copy a { color: var(--milk); border-bottom: 1px dotted var(--hairline); }
 .archive-copy .email-line { display: block; margin-top: 4px; font-family: var(--ui); font-size: .72rem; border-bottom: 0; }
-.eyebrow { display: block; margin-bottom: 12px; color: var(--black); font: 400 .88rem/1 var(--display); letter-spacing: .055em; text-transform: none; }
-.search { display: flex; border-bottom: 1px solid var(--hairline); }
-.search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--black); background: transparent; font: 300 .67rem var(--ui); }
+.eyebrow { display: block; margin-bottom: 12px; color: var(--milk); font: 400 .88rem/1 var(--display); letter-spacing: .055em; text-transform: none; }
+.search { display: flex; border-bottom: 1px dotted var(--hairline); }
+.search input { min-width: 0; width: 100%; padding: 8px 0; border: 0; outline: 0; color: var(--milk); background: transparent; font: 300 .67rem var(--ui); }
 .search input::placeholder { color: var(--quiet); }
-.search button { border: 0; color: var(--black); background: transparent; cursor: pointer; }
+.search button { border: 0; color: var(--milk); background: transparent; cursor: pointer; }
 .browse-list { padding: 0; margin: 0; list-style: none; }
 .browse-list { counter-reset: track; }
-.browse-list li { counter-increment: track; display: grid; grid-template-columns: 22px 1fr auto; padding: 5px 0; border-bottom: 1px solid var(--hairline); }
+.browse-list li { counter-increment: track; display: grid; grid-template-columns: 22px 1fr auto; padding: 5px 0; border-bottom: 1px dotted var(--hairline); }
 .browse-list li::before { content: counter(track, decimal-leading-zero); color: var(--quiet); font-family: var(--ui); font-size: .63rem; }
 .browse-list span { color: var(--quiet); }
 .years { display: flex; flex-wrap: wrap; gap: 8px 14px; font-family: var(--ui); font-size: .67rem; }
+.links-list { display: flex; flex-wrap: wrap; gap: 8px 14px; font-family: var(--ui); font-size: .67rem; }
 .tag-cloud { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; }
 .tag-cloud a { font-family: var(--display); font-size: calc(.67rem + (var(--weight) * .09rem)); line-height: 1.35; }
 .tag-cloud small { margin-left: 2px; color: var(--quiet); font-size: .52rem; }
@@ -290,7 +295,7 @@ def image_size(frontmatter: dict[str, str]) -> str:
         frontmatter.get("image_size")
         or frontmatter.get("image-size")
         or frontmatter.get("imagesize")
-        or "auto"
+        or "full"
     )
     normalized = value.strip().lower().rstrip("%")
     aliases = {"large": "full", "100": "full", "1": "full", "half": "50", "quarter": "25"}
@@ -332,6 +337,14 @@ def normalize_notes() -> None:
         if "sold" in body.lower() and "status" not in keys:
             additions.append("status: sold")
         path.write_text("---\n" + "\n".join([*lines, *additions]) + "\n---\n\n" + body.strip() + "\n", encoding="utf-8")
+
+
+def copy_theme_assets() -> None:
+    logo = WORKFLOW_DIR / "site-logo3-milk-transparent.png"
+    if logo.is_file():
+        assets = PUBLIC / "assets"
+        assets.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(logo, assets / logo.name)
 
 
 def parse_post(path: Path) -> Post | None:
@@ -442,19 +455,19 @@ def main() -> None:
     page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I NASTRI — Richmond Jeffrey</title><meta name="description" content="Drawings, paintings, and notes by Richmond Jeffrey.">
-<link rel="stylesheet" href="inastri-home.css?v=banner-sidebar-20260719"></head><body>
-<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span></a></header>
+<link rel="stylesheet" href="inastri-home.css?v=inverted-20260722"></head><body>
+<header class="site-header"><a class="identity" href="./" aria-label="I Nastri home"><span class="wordmark">I Nastri</span><img class="title-mark" src="assets/site-logo3-milk-transparent.png" alt="Circular artwork detail"></a></header>
 <main class="shell" id="work"><aside class="sidebar" id="archive">
-<img class="sidebar-mark" src="assets/site-logo.gif" alt="Circular artwork detail">
 <section class="archive-copy"><p><strong>I NASTRI</strong> is the personal website of <span class="nowrap">Richmond Jeffrey</span>. This page is an ongoing log of my paintings, drawings, writings, and other media. You can browse works broadly by tags using the menu below in this sidebar, or simply scroll through to enjoy the most recent posts. Any work with a price is for sale: if you are interested in buying a piece, please send me a message at:<a class="email-line" href="mailto:richmondjeffrey0@gmail.com">richmondjeffrey0@gmail.com</a></p><p>For my portfolio, as well as featured works and official information, please visit <a href="https://richmondjeffrey.com">richmondjeffrey.com</a>.</p></section>
 <section><p class="eyebrow">Tags</p><div class="tag-cloud">{''.join(tag_links)}</div></section>
 <section><p class="eyebrow">Archive</p><div class="years">{year_links}</div></section>
-<section><p class="eyebrow">Links</p><a href="index.xml">rss feed</a></section></aside>
+<section><p class="eyebrow">Links</p><div class="links-list"><a href="index.xml">rss feed</a><a href="https://richmondjeffrey.com">richmondjeffrey.com</a><a href="https://instagram.com/richmondjeffrey0">instagram</a><a href="https://instagram.com/notice_the_noticer">ink projects</a></div></section></aside>
 <section class="feed" aria-label="Recent work">{''.join(rendered)}</section></main>
 <footer class="site-footer"><span>© 2026 Richmond Jeffrey</span></footer>
 <script>const posts=[...document.querySelectorAll('.post')];const applyFilter=v=>posts.forEach(p=>p.hidden=v&&!((p.dataset.search+' '+p.textContent).toLowerCase().includes(v)));document.querySelectorAll('[data-year],[data-tag]').forEach(a=>a.addEventListener('click',e=>{{e.preventDefault();applyFilter((a.dataset.year||a.dataset.tag).toLowerCase());}}));document.querySelector('[data-reset]')?.addEventListener('click',()=>applyFilter(''));const artworkImages=[...document.querySelectorAll('.artwork img')];const pct={{full:1,75:.75,50:.5,25:.25}};const sizeArtwork=img=>{{if(!img.naturalWidth)return;const post=img.closest('.post');const setting=post?.dataset.imageSize||'auto';const container=img.closest('.artwork');const max=container.clientWidth;if(pct[setting]){{img.style.width=Math.round(max*pct[setting])+'px';img.style.height='auto';return;}}const ratio=img.naturalWidth/img.naturalHeight;let scale=1;if(ratio<.8)scale=.52;else if(ratio<1)scale=.62;else if(ratio<1.2)scale=.7;img.style.width=Math.round(max*scale)+'px';img.style.height='auto';}};artworkImages.forEach(img=>{{if(img.complete)sizeArtwork(img);else img.addEventListener('load',()=>sizeArtwork(img),{{once:true}});}});window.addEventListener('resize',()=>artworkImages.forEach(sizeArtwork));</script>
 </body></html>"""
     PUBLIC.mkdir(parents=True, exist_ok=True)
+    copy_theme_assets()
     (PUBLIC / "index.html").write_text(page, encoding="utf-8")
     (PUBLIC / "inastri-home.css").write_text(STYLE, encoding="utf-8")
     print(f"Built I NASTRI homepage with {len(posts)} artwork posts")
