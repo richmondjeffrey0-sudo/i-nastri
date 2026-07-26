@@ -4,6 +4,8 @@ tags:
   - painting
   - still_life
   - flowers
+published: 2026-07-25
+image_size: "50"
 title: "Orange Roses"
 date: 2024-06-21
 ---
